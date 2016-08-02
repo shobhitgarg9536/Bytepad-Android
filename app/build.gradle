@@ -29,6 +29,7 @@ dependencies {
     compile 'com.octo.android.robospice:robospice-spring-android:+'
     compile 'org.codehaus.jackson:jackson-mapper-asl:+'
     compile 'com.google.code.gson:gson:+'
+    compile 'com.github.florent37:materialtextfield:1.0.5'
     compile('org.simpleframework:simple-xml:+') {
         exclude module: 'xpp3'
         exclude group: 'stax'

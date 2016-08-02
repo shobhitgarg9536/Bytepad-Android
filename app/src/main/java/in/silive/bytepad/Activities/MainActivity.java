@@ -28,11 +28,11 @@ public class MainActivity extends AppCompatActivity {
         DialogFileDir dialogFileDir = new DialogFileDir();
         dialogFileDir.show(getSupportFragmentManager(), "File Dialog");
         Log.d("Bytepad", "File chooser Dialog created");
-         spiceManager = new SpiceManager(JacksonSpringAndroidSpiceService.class);
-
+        spiceManager = new SpiceManager(JacksonSpringAndroidSpiceService.class);
 
 
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.this.setProgressBarIndeterminateVisibility(true);
 
         FollowersRequest request = new FollowersRequest(user);
-       lastRequestCacheKey  = request.createCacheKey();
+        lastRequestCacheKey = request.createCacheKey();
 
         spiceManager.execute(request, lastRequestCacheKey, DurationInMillis.ONE_MINUTE, new ListFollowersRequestListener());
     }
