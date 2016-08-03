@@ -1,9 +1,8 @@
 package in.silive.bytepad.Network;
 
-import org.simpleframework.xml.Path;
-
-import in.silive.bytepad.Models.Paper;
 import in.silive.bytepad.Models.PaperModel;
+import retrofit.http.GET;
+import retrofit.http.Query;
 
 /**
  * Created by akriti on 2/8/16.

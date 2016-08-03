@@ -1,25 +1,26 @@
 package in.silive.bytepad.Network;
 
-import in.silive.bytepad.Models.Paper;
+import com.octo.android.robospice.request.retrofit.RetrofitSpiceRequest;
+
 import in.silive.bytepad.Models.PaperModel;
-import roboguice.util.temp.Ln;
 
 /**
  * Created by akriti on 2/8/16.
  */
-public class RoboRetroSpiceRequest extends RetrofitSpiceRequest<PaperModel.PapersList,Bytepad> {
+public class RoboRetroSpiceRequest extends RetrofitSpiceRequest<PaperModel.PapersList,BytePad> {
     private String data;
 
 
     public RoboRetroSpiceRequest(String data) {
-        super(PaperModel.PapersList.class, Bytepad.class);
+        super(PaperModel.PapersList.class, BytePad.class);
         this.data = data;
     }
 
+
     @Override
-    public PaperModel.PaperList loadDataFromNetwork() {
-        Ln.d("Call web service ");
-        return getService().paperlist(data);
+    public PaperModel.PapersList loadDataFromNetwork() throws Exception {
+
+            return getService().papersList(data);
     }
 }
 

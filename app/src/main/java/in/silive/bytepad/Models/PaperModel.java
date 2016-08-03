@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by akriti on 2/8/16.
  */
-public class PaperModel implements ParentObject {
+public class PaperModel {
     public String Title;
     public String ExamCategory;
     public String PaperCategory;
@@ -22,26 +22,6 @@ public class PaperModel implements ParentObject {
     }
 
     public PaperModel() {
-    }
-
-    public void setParentNumber(int parentNumber) {
-        mParentNumber = parentNumber;
-    }
-
-    /**
-     * Getter method for the list of children associated with this parent object
-     *
-     * @return list of all children associated with this specific parent object
-     */
-    @Override
-    public List<Object> getChildObjectList() {
-        return mChildObjectList;
-    }
-
-    @Override
-    public void setChildObjectList(List<Object> list) {
-        mChildObjectList = list;
-
     }
 
     @SuppressWarnings("serial")

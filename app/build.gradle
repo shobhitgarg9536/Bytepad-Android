@@ -25,13 +25,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:design:24.1.1'
     compile 'com.android.support:support-v4:24.1.1'
-    compile 'com.octo.android.robospice:robospice:+'
-    compile 'com.octo.android.robospice:robospice-spring-android:+'
-    compile 'org.codehaus.jackson:jackson-mapper-asl:+'
-    compile 'com.google.code.gson:gson:+'
+    compile 'com.octo.android.robospice:robospice-retrofit:1.4.14'
     compile 'com.github.florent37:materialtextfield:1.0.5'
-    compile('org.simpleframework:simple-xml:+') {
-        exclude module: 'xpp3'
-        exclude group: 'stax'
-    }
+
 }

@@ -1,5 +1,7 @@
 package in.silive.bytepad.Network;
 
+import com.octo.android.robospice.retrofit.RetrofitGsonSpiceService;
+
 /**
  * Created by akriti on 2/8/16.
  */
@@ -9,7 +11,7 @@ public class RoboRetrofitService extends RetrofitGsonSpiceService {
     @Override
     public void onCreate() {
         super.onCreate();
-        addRetrofitInterface(Bytepad.class);
+        addRetrofitInterface(BytePad.class);
     }
 
     @Override
