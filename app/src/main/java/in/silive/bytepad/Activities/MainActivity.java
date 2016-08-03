@@ -35,6 +35,12 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Bytepad", "Search bar added");
         DialogFileDir dialogFileDir = new DialogFileDir();
         dialogFileDir.show(getSupportFragmentManager(), "File Dialog");
+        dialogFileDir.setListener(new DialogFileDir.Listener() {
+            @Override
+            public void onDirSelected(String addr) {
+                Log.d("Bytepad", "Directory added "+ addr);
+            }
+        });
         Log.d("Bytepad", "File chooser Dialog created");
         spiceManager = new SpiceManager(RoboRetrofitService.class);
         roboRetroSpiceRequest = new RoboRetroSpiceRequest("robospice");
@@ -43,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        spiceManager.start(getApplicationContext());
         spiceManager.execute(roboRetroSpiceRequest, "bytepad", DurationInMillis.ONE_MINUTE, new ListPaperRequestListener());
     }
 

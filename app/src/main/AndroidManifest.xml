@@ -24,8 +24,7 @@
         </activity>
         <activity android:name=".Activities.MainActivity"></activity>
         <service
-            android:name="com.octo.android.robospice.JacksonSpringAndroidSpiceService"
-            android:exported="false" />
+            android:name=".Network.RoboRetrofitService" />
     </application>
 
 </manifest>
