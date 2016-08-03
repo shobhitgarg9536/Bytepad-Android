@@ -9,18 +9,17 @@ import roboguice.util.temp.Ln;
  */
 public class RoboRetroSpiceRequest extends RetrofitSpiceRequest<PaperModel.List, Bytepad> {
     private String owner;
-    private String repo;
+
 
     public RoboRetroSpiceRequest(String owner) {
         super(PaperModel.List.class, Bytepad.class);
         this.owner = owner;
-        this.repo = repo;
     }
 
     @Override
     public PaperModel.List loadDataFromNetwork() {
         Ln.d("Call web service ");
-        return getService().contributors(owner, repo);
+        return getService().contributors(owner);
     }
 }
 

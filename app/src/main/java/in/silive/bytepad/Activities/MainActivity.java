@@ -4,14 +4,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
-
-import java.util.List;
-
 import in.silive.bytepad.Fragments.DialogFileDir;
 import in.silive.bytepad.Models.PaperModel;
 import in.silive.bytepad.Network.Bytepad;
@@ -19,6 +15,8 @@ import in.silive.bytepad.Network.RoboRetroSpiceRequest;
 import in.silive.bytepad.R;
 import in.silive.bytepad.Services.FollowerList;
 import in.silive.bytepad.Services.FollowersRequest;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     String lastRequestCacheKey;
@@ -41,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        getSpiceManager().execute(githubRequest, "github", DurationInMillis.ONE_MINUTE, new ListContributorRequestListener());
+        spiceManager.execute(roboRetroSpiceRequest, "bytepad", DurationInMillis.ONE_MINUTE, new ListFollowersRequestListener.ListContributorRequestListener());
     }
 
 
@@ -79,7 +77,7 @@ class ListFollowersRequestListener implements RequestListener<FollowerList> {
     public void onRequestSuccess(FollowerList listFollowers) {
         //update your UI
     }
-    private void updateContributors(final PaperModel.List result) {
+    private void updatePapers(final PaperModel.List result) {
         String originalText = getString(R.string.textview_text);
 
         StringBuilder builder = new StringBuilder();
@@ -97,7 +95,7 @@ class ListFollowersRequestListener implements RequestListener<FollowerList> {
         }
         mTextView.setText(builder.toString());
     }
-    public final class ListContributorRequestListener implements RequestListener<Lab.List> {
+    public final class ListContributorRequestListener implements RequestListener<PaperModel.List> {
 
         @Override
         public void onRequestFailure(SpiceException spiceException) {
