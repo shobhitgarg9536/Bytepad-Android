@@ -38,7 +38,9 @@ android:id="@+id/ivBack"
         android:layout_width="match_parent"
         android:id="@+id/lvDirectories"
         android:layout_weight="1"
-        android:layout_height="300dp"></ListView>
+        android:layout_height="300dp">
+
+    </ListView>
 
     <LinearLayout
         android:layout_width="match_parent"
