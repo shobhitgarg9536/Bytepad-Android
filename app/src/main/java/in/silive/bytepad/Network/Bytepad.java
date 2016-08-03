@@ -8,7 +8,8 @@ import in.silive.bytepad.Models.PaperModel;
 /**
  * Created by akriti on 2/8/16.
  */
-public interface Bytepad {
-    @GET("/repos/{owner}")
-    PaperModel.List contributors(@Path("owner") String owner);
+public interface BytePad {
+    @GET("/paper/getallpapers")
+    PaperModel.PapersList papersList(
+            @Query("query") String data);
 }

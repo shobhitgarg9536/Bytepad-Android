@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         dialogFileDir.show(getSupportFragmentManager(), "File Dialog");
         Log.d("Bytepad", "File chooser Dialog created");
        // spiceManager = new SpiceManager(JacksonSpringAndroidSpiceService.class);
-        roboRetroSpiceRequest = new RoboRetroSpiceRequest("octo-online", "robospice");
+        roboRetroSpiceRequest = new RoboRetroSpiceRequest( "robospice");
     }
 
     @Override
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         FollowersRequest request = new FollowersRequest(user);
         lastRequestCacheKey = request.createCacheKey();
 
-        spiceManager.execute(request, lastRequestCacheKey, DurationInMillis.ONE_MINUTE, new ListFollowersRequestListener());
+        spiceManager.execute(request, lastRequestCacheKey, DurationInMillis.ONE_MINUTE, new ListFollowersRequestListener().ListPaperRequestListener());
     }
 }
 
@@ -77,14 +77,14 @@ class ListFollowersRequestListener implements RequestListener<FollowerList> {
     public void onRequestSuccess(FollowerList listFollowers) {
         //update your UI
     }
-    private void updatePapers(final PaperModel.List result) {
+    private void updatePapers(final PaperModel.PaperList result) {
         String originalText = getString(R.string.textview_text);
 
         StringBuilder builder = new StringBuilder();
         builder.append(originalText);
         builder.append('\n');
         builder.append('\n');
-        for (Bytepad contributor : result) {
+        for (Bytepad b : result) {
             builder.append('\t');
             builder.append(contributor.login);
             builder.append('\t');
@@ -95,17 +95,17 @@ class ListFollowersRequestListener implements RequestListener<FollowerList> {
         }
         mTextView.setText(builder.toString());
     }
-    public final class ListContributorRequestListener implements RequestListener<PaperModel.List> {
+    public final class ListPaperRequestListener implements RequestListener<PaperModel.PapersList> {
 
         @Override
         public void onRequestFailure(SpiceException spiceException) {
-            Toast.makeText(RoboRetroSpiceRequest.this, "failure", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainActivity.this, "failure", Toast.LENGTH_SHORT).show();
         }
 
         @Override
-        public void onRequestSuccess(final List.List result) {
+        public void onRequestSuccess(final PaperModel.PapersList result) {
             Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
-            updateContributors(result);
+            updatePapers(result);
         }
     }
 }

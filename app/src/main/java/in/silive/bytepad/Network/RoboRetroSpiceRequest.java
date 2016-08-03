@@ -7,19 +7,19 @@ import roboguice.util.temp.Ln;
 /**
  * Created by akriti on 2/8/16.
  */
-public class RoboRetroSpiceRequest extends RetrofitSpiceRequest<PaperModel.List, Bytepad> {
-    private String owner;
+public class RoboRetroSpiceRequest extends RetrofitSpiceRequest<PaperModel.PapersList,Bytepad> {
+    private String data;
 
 
-    public RoboRetroSpiceRequest(String owner) {
-        super(PaperModel.List.class, Bytepad.class);
-        this.owner = owner;
+    public RoboRetroSpiceRequest(String data) {
+        super(PaperModel.PapersList.class, Bytepad.class);
+        this.data = data;
     }
 
     @Override
-    public PaperModel.List loadDataFromNetwork() {
+    public PaperModel.PaperList loadDataFromNetwork() {
         Ln.d("Call web service ");
-        return getService().contributors(owner);
+        return getService().paperlist(data);
     }
 }
 
