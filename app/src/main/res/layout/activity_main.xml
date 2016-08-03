@@ -13,13 +13,52 @@
         app:mtf_image="@drawable/search">
 
         <EditText
+            android:id="@+id/search_paper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Search"
-            android:id="@+id/search_paper"
             android:textColor="#333"
             android:textColorHint="#666"
             android:textSize="15sp" />
 
     </com.github.florent37.materialtextfield.MaterialTextField>
+
+    <android.support.design.widget.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true">
+
+        <android.support.design.widget.TabItem
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="#FFFB5252"
+            android:text="ST"
+            android:textColor="#ffffff" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="40sp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="#FFFB5252"
+            android:text="PUT"
+            android:textColor="#ffffff" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="40sp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="#FFFB5252"
+            android:text="UT"
+            android:textColor="#ffffff" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="40sp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="#FFFB5252"
+            android:text="Downloaded"
+            android:textColor="#ffffff" />
+
+    </android.support.design.widget.TabLayout>
 </RelativeLayout>
