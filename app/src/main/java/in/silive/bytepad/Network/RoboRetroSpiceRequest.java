@@ -16,7 +16,7 @@ public class RoboRetroSpiceRequest extends RetrofitSpiceRequest<PaperModel.Paper
         this.data = data;
     }
 
-
+    
     @Override
     public PaperModel.PapersList loadDataFromNetwork() throws Exception {
 
