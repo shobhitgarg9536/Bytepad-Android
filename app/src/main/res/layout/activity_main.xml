@@ -5,14 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    tools:context=".Activities.MainActivity">
+    tools:context=".Activities.MainActivity"
+    android:orientation="vertical">
 
     <com.github.florent37.materialtextfield.MaterialTextField
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:mtf_image="@drawable/search">
+        app:mtf_image="@drawable/search"
+        android:id="@+id/view">
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/search_paper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,19 +24,47 @@
             android:textSize="15sp" />
 
     </com.github.florent37.materialtextfield.MaterialTextField>
+    <!--<android.support.v7.widget.SearchView
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>-->
+    <!--<com.miguelcatalan.materialsearchview.MaterialSearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />-->
 
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/view2">
+
+    </android.support.v7.widget.RecyclerView>
     <android.support.design.widget.TabLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_alignParentBottom="true">
+        android:background="#FFFB5252"
+        app:tabIndicatorColor="#FFFC2525"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/view2">
 
         <android.support.design.widget.TabItem
             android:layout_width="40dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:background="#FFFB5252"
-            android:text="ST"
+            android:text="ALL"
             android:textColor="#ffffff" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="40sp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="#FFFB5252"
+            android:text="ST"
+            android:textColor="#ffffff"/>
 
         <android.support.design.widget.TabItem
             android:layout_width="40sp"
@@ -42,23 +72,22 @@
             android:layout_gravity="center"
             android:background="#FFFB5252"
             android:text="PUT"
-            android:textColor="#ffffff" />
-
+            android:textColor="#ffffff"/>
         <android.support.design.widget.TabItem
             android:layout_width="40sp"
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:background="#FFFB5252"
             android:text="UT"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"/>
 
         <android.support.design.widget.TabItem
             android:layout_width="40sp"
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:background="#FFFB5252"
-            android:text="Downloaded"
-            android:textColor="#ffffff" />
+            android:text="Saved"
+            android:textColor="#ffffff"/>
 
     </android.support.design.widget.TabLayout>
 </RelativeLayout>
