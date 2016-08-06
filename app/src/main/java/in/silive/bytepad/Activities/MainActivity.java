@@ -12,6 +12,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 
+import com.raizlabs.android.dbflow.config.FlowConfig;
+import com.raizlabs.android.dbflow.config.FlowManager;
+
 import java.util.List;
 
 import in.silive.bytepad.Adapters.PapersListAdapter;
@@ -35,6 +38,8 @@ public class MainActivity extends AppCompatActivity  {
         c = getApplicationContext();
         search_paper = (AutoCompleteTextView) findViewById(R.id.search_paper);
         Log.d("Bytepad", "Search bar added");
+        FlowManager.init(new FlowConfig.Builder(this).build());
+        Log.d("Bytepad", "DB flow instantiated");
         rview = (RecyclerView)findViewById(R.id.rview);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         rview.setLayoutManager(mLayoutManager);

@@ -46,7 +46,7 @@ public class PaperListAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         Holder holder = new Holder();
         View rview;
-        rview = inflater.inflate(R.layout.adapter_row, null);
+        rview = inflater.inflate(R.layout.adapter_row_paper, null);
         holder.tv = (TextView) rview.findViewById(R.id.stud_name);
         holder.iv = (TextView) rview.findViewById(R.id.stud_occp);
         holder.paper_view = (Button)rview.findViewById(R.id.paper_view);

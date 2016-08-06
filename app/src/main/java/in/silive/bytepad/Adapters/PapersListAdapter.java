@@ -62,7 +62,7 @@ public class PapersListAdapter extends RecyclerView.Adapter<PapersListAdapter.Pa
     @Override
     public PaperViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.adapter_row, parent, false);
+                .inflate(R.layout.adapter_row_paper, parent, false);
 
         return new PaperViewHolder(itemView);
     }
