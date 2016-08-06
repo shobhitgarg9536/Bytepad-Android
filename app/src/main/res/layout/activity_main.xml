@@ -41,7 +41,7 @@
         android:scrollbars="vertical"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/view2">
+        android:layout_above="@+id/tabview">
 
     </android.support.v7.widget.RecyclerView>
     <android.support.design.widget.TabLayout
@@ -50,7 +50,7 @@
         android:background="#FFFB5252"
         app:tabIndicatorColor="#FFFC2525"
         android:layout_alignParentBottom="true"
-        android:id="@+id/view2">
+        android:id="@+id/tabview">
 
         <android.support.design.widget.TabItem
             android:layout_width="40dp"
@@ -58,6 +58,7 @@
             android:layout_gravity="center"
             android:background="#FFFB5252"
             android:text="ALL"
+            android:id="@+id/all"
             android:textColor="#ffffff" />
 
         <android.support.design.widget.TabItem
@@ -66,6 +67,7 @@
             android:layout_gravity="center"
             android:background="#FFFB5252"
             android:text="ST"
+            android:id="@+id/st"
             android:textColor="#ffffff"/>
 
         <android.support.design.widget.TabItem
@@ -74,6 +76,7 @@
             android:layout_gravity="center"
             android:background="#FFFB5252"
             android:text="PUT"
+            android:id="@+id/put"
             android:textColor="#ffffff"/>
         <android.support.design.widget.TabItem
             android:layout_width="40sp"
@@ -81,6 +84,7 @@
             android:layout_gravity="center"
             android:background="#FFFB5252"
             android:text="UT"
+            android:id="@+id/ut"
             android:textColor="#ffffff"/>
 
         <android.support.design.widget.TabItem
@@ -89,6 +93,7 @@
             android:layout_gravity="center"
             android:background="#FFFB5252"
             android:text="Saved"
+            android:id="@+id/saved"
             android:textColor="#ffffff"/>
 
     </android.support.design.widget.TabLayout>

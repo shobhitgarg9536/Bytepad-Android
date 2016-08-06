@@ -2,6 +2,8 @@ package in.silive.bytepad.Activities;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.TabItem;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +13,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.TabHost;
 
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
@@ -27,7 +30,11 @@ public class MainActivity extends AppCompatActivity  {
     public static AutoCompleteTextView search_paper;
     public static Context c;
     public RecyclerView rview;
+    public TabLayout tabview;
+    public TabItem all,st,put,ut,saved;
+    public TabHost tabHost;
     List<PaperModel> paperModelList;
+    int ALL=0,ST=1,PUT=2,UT=3,SAVED=4;
 
 
     @Override
@@ -38,6 +45,23 @@ public class MainActivity extends AppCompatActivity  {
         c = getApplicationContext();
         search_paper = (AutoCompleteTextView) findViewById(R.id.search_paper);
         Log.d("Bytepad", "Search bar added");
+        tabview = (TabLayout)findViewById(R.id.tabview);
+        all = (TabItem)findViewById(R.id.all);
+        st = (TabItem)findViewById(R.id.st);
+        put = (TabItem)findViewById(R.id.put);
+        ut = (TabItem)findViewById(R.id.ut);
+        saved = (TabItem)findViewById(R.id.saved);
+        tabHost = new TabHost(this);
+        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String s) {
+                int i = tabHost.getCurrentTab();
+                switch (i){
+                    
+                }
+            }
+        });
+        Log.d("Bytepad", "Tab Layout added");
         FlowManager.init(new FlowConfig.Builder(this).build());
         Log.d("Bytepad", "DB flow instantiated");
         rview = (RecyclerView)findViewById(R.id.rview);
