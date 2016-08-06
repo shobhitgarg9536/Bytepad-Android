@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:mtf_image="@drawable/search"
-        android:id="@+id/view">
+        android:id="@+id/sview">
 
         <AutoCompleteTextView
             android:id="@+id/search_paper"
@@ -36,7 +36,9 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/view"
+        android:layout_below="@+id/sview"
+        android:id="@+id/rview"
+        android:scrollbars="vertical"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_above="@+id/view2">

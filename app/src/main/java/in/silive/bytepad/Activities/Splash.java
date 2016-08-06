@@ -29,6 +29,8 @@ public class Splash extends AppCompatActivity implements RequestListener<PaperMo
     SpiceManager spiceManager;
     RoboRetroSpiceRequest roboRetroSpiceRequest;
     PrefManager prefManager;
+    public static PaperModel pm;
+    Bundle paperModelBundle;
 
 
     @Override
@@ -145,7 +147,9 @@ public class Splash extends AppCompatActivity implements RequestListener<PaperMo
             builder.append(p.RelativeURL);
             builder.append(')');
             builder.append('\n');
+            pm = p;
         }
+
         Toast.makeText(this, builder.toString(), Toast.LENGTH_SHORT).show();
         Log.d("Bytepad", builder.toString());
     }

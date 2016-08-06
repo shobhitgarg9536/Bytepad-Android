@@ -27,5 +27,69 @@ public class PaperModel {
     @SuppressWarnings("serial")
     public static class PapersList extends ArrayList<PaperModel> {
     }
+
+    public String getExamCategory() {
+        return ExamCategory;
+    }
+
+    public void setExamCategory(String examCategory) {
+        ExamCategory = examCategory;
+    }
+
+    public List<Object> getmChildObjectList() {
+        return mChildObjectList;
+    }
+
+    public void setmChildObjectList(List<Object> mChildObjectList) {
+        this.mChildObjectList = mChildObjectList;
+    }
+
+    public int getmParentNumber() {
+        return mParentNumber;
+    }
+
+    public void setmParentNumber(int mParentNumber) {
+        this.mParentNumber = mParentNumber;
+    }
+
+    public String getPaperCategory() {
+        return PaperCategory;
+    }
+
+    public void setPaperCategory(String paperCategory) {
+        PaperCategory = paperCategory;
+    }
+
+    public String getRelativeURL() {
+        return RelativeURL;
+    }
+
+    public void setRelativeURL(String relativeURL) {
+        RelativeURL = relativeURL;
+    }
+
+    public String getSize() {
+        return Size;
+    }
+
+    public void setSize(String size) {
+        Size = size;
+    }
+
+    public String getTitle() {
+        return Title;
+    }
+
+    public void setTitle(String title) {
+        Title = title;
+    }
+
+    public String getURL() {
+        return URL;
+    }
+
+    public void setURL(String URL) {
+        this.URL = URL;
+    }
 }
 
