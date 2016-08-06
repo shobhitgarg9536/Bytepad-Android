@@ -7,7 +7,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
-        android:id="@+id/stud_name"
+        android:id="@+id/paper_name"
         android:layout_height="wrap_content"
         android:layout_margin="1dp"
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/stud_occp"
+        android:id="@+id/paper_category"
         android:layout_height="wrap_content"
         android:layout_margin="1dp"
         android:layout_width="match_parent"
@@ -29,7 +29,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:id="@+id/paper_options">
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"

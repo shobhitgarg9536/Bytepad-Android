@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity  {
             public void onTabChanged(String s) {
                 int i = tabHost.getCurrentTab();
                 switch (i){
-                    
+
                 }
             }
         });
