@@ -101,8 +101,8 @@ public class PapersListAdapter extends RecyclerView.Adapter<PapersListAdapter.Pa
                     final DownloadManager downloadManager;
 
                     String file_url = paper.URL;
-                   file_url =  file_url.replace("Sem  ","Sem%20%20");
-
+                   //file_url =  file_url.replace("Sem  ","Sem%20%20");
+                    file_url =  file_url.replace(" ","%20");
 
                     final long downloadReference;
                     BroadcastReceiver recieveDownloadComplete, notificationClicked;
