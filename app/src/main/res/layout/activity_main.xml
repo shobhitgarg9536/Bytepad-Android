@@ -52,7 +52,7 @@
         android:layout_alignParentBottom="true"
         android:id="@+id/tabview">
 
-        <android.support.design.widget.TabItem
+    <!--    <android.support.design.widget.TabItem
             android:layout_width="40dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
@@ -94,7 +94,7 @@
             android:background="#FFFB5252"
             android:text="Saved"
             android:id="@+id/saved"
-            android:textColor="#ffffff"/>
+            android:textColor="#ffffff"/>-->
 
     </android.support.design.widget.TabLayout>
 </RelativeLayout>

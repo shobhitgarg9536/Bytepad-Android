@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.List;
 
 import in.silive.bytepad.PaperDatabaseModel;
@@ -35,6 +36,22 @@ public class PapersListAdapter extends RecyclerView.Adapter<PapersListAdapter.Pa
         this.papersList = papersList;
         this.context = context;
         this.prefManager = new PrefManager(context);
+    }
+
+    public class PaperViewHolder extends RecyclerView.ViewHolder {
+        public TextView tvPaperTitle,tvPaperCategory,tvPaperSize,tvDownload;
+        ImageView ivIcon;
+        RelativeLayout rl;
+
+        public PaperViewHolder(View view) {
+            super(view);
+            tvPaperTitle = (TextView) view.findViewById(R.id.paper_title);
+            tvPaperCategory = (TextView) view.findViewById(R.id.paper_category);
+            tvPaperSize = (TextView)view.findViewById(R.id.paper_size);
+            tvDownload = (TextView)view.findViewById(R.id.tvDownload);
+            ivIcon = (ImageView)view.findViewById(R.id.ivIcon);
+            rl = (RelativeLayout)view.findViewById(R.id.rl);
+        }
     }
 
     @Override
@@ -56,11 +73,12 @@ public class PapersListAdapter extends RecyclerView.Adapter<PapersListAdapter.Pa
         holder.tvPaperTitle.setText(paper.Title);
         holder.tvPaperCategory.setText(paper.PaperCategory);
         holder.tvPaperTitle.setText(paper.Title);
+        holder.tvPaperSize.setText(paper.Size);
         int paperImgId;
-        if (paper.Title.contains("doc"))
+        if (paper.Title.contains("doc") ||paper.Title.contains("DOC")||paper.Title.contains("Doc"))
             paperImgId = R.drawable.doc;
-        else if (paper.Title.contains("rtf"))
-            paperImgId = R.drawable.rtf;
+        else if (paper.Title.contains("rtf")||paper.Title.contains("RTF")||paper.Title.contains("Rtf"))
+            paperImgId = R.drawable.rtf ;
         else
             paperImgId = R.drawable.pdf;
 
@@ -71,12 +89,12 @@ public class PapersListAdapter extends RecyclerView.Adapter<PapersListAdapter.Pa
                 @Override
                 public void onClick(View view) {
                     //todo view paper
+                    openDocument(paper.dwnldPath);
                 }
             });
         } else {
 
             //todo download paper
-
             holder.rl.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -155,20 +173,16 @@ public class PapersListAdapter extends RecyclerView.Adapter<PapersListAdapter.Pa
 
 
     }
-
-    public class PaperViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvPaperTitle, tvPaperCategory, tvPaperSize, tvDownload;
-        ImageView ivIcon;
-        RelativeLayout rl;
-
-        public PaperViewHolder(View view) {
-            super(view);
-            tvPaperTitle = (TextView) view.findViewById(R.id.paper_title);
-            tvPaperCategory = (TextView) view.findViewById(R.id.paper_category);
-            tvPaperSize = (TextView) view.findViewById(R.id.paper_size);
-            tvDownload = (TextView) view.findViewById(R.id.tvDownload);
-            ivIcon = (ImageView) view.findViewById(R.id.ivIcon);
-            rl = (RelativeLayout) view.findViewById(R.id.rl);
+    public void openDocument(String name) {
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
+        File file = new File(name);
+        String extension = android.webkit.MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(file).toString());
+        String mimetype = android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+        if (extension.equalsIgnoreCase("") || mimetype == null) {
+            intent.setDataAndType(Uri.fromFile(file), "text/*");
+        } else {
+            intent.setDataAndType(Uri.fromFile(file), mimetype);
         }
+        context.startActivity(Intent.createChooser(intent, "Choose an Application:"));
     }
 }

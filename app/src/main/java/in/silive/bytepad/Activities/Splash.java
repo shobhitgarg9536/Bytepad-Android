@@ -149,7 +149,7 @@ tvProgressInfo.setText("Storing Papers list.");
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                new Delete().from(PaperDatabaseModel.class);
+                new Delete().from(PaperDatabaseModel.class).query();
                 for (PaperModel paper : result) {
                     PaperDatabaseModel paperDatabaseModel = new PaperDatabaseModel();
                     paperDatabaseModel.Title = paper.Title;
@@ -161,6 +161,7 @@ tvProgressInfo.setText("Storing Papers list.");
                     paperDatabaseModel.downloaded = false;
                     paperDatabaseModel.save();
                 }
+                prefManager.setPapersLoaded(true);
                 return null;
             }
 
