@@ -13,5 +13,15 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="NavigationTab" parent="Widget.Design.TabLayout">
+       <!-- <item name="tabBackground">@color/background_tab</item>-->
+        <item name="tabSelectedTextColor">@color/colorPrimaryDark</item>
+        <item name="tabIndicatorColor">@color/colorAccent</item>
+        <item name="tabTextAppearance">@style/NavigationTabTextAppeareance</item>
+    </style>
 
+    <style name="NavigationTabTextAppeareance" parent="TextAppearance.Design.Tab">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>

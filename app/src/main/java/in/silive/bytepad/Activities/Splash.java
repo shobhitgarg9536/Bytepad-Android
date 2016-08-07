@@ -4,22 +4,33 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
+import com.raizlabs.android.dbflow.sql.language.Delete;
+import com.raizlabs.android.dbflow.sql.language.Select;
 
+import in.silive.bytepad.Config;
+import in.silive.bytepad.Fragments.DialogFileDir;
 import in.silive.bytepad.Models.PaperModel;
+import in.silive.bytepad.Network.CheckConnectivity;
 import in.silive.bytepad.Network.RoboRetroSpiceRequest;
 import in.silive.bytepad.Network.RoboRetrofitService;
+import in.silive.bytepad.PaperDatabase;
+import in.silive.bytepad.PaperDatabaseModel;
 import in.silive.bytepad.PrefManager;
 import in.silive.bytepad.R;
 
@@ -31,6 +42,8 @@ public class Splash extends AppCompatActivity implements RequestListener<PaperMo
     PrefManager prefManager;
     public static PaperModel pm;
     Bundle paperModelBundle;
+    ProgressBar progressBar;
+    TextView tvProgressInfo;
 
 
     @Override
@@ -40,53 +53,67 @@ public class Splash extends AppCompatActivity implements RequestListener<PaperMo
         context = getApplicationContext();
         prefManager = new PrefManager(context);
         splash = (RelativeLayout) findViewById(R.id.splash);
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        tvProgressInfo = (TextView)findViewById(R.id.tvProgressInfo);
         Log.d("Bytepad","Splash created");
         spiceManager = new SpiceManager(RoboRetrofitService.class);
         Log.d("Bytepad", "Spice manager initialized");
-        roboRetroSpiceRequest = new RoboRetroSpiceRequest("robospice");
+        roboRetroSpiceRequest = new RoboRetroSpiceRequest();
         Log.d("Bytepad", "Spice request initialized");
-        checkConnection();
+checkConnection();
     }
 
+
     public void checkConnection() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = connectivityManager.getActiveNetworkInfo();
-        if (info == null) {
-            //   Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
-            //no_net_connection.setVisibility(View.VISIBLE);
-            Snackbar snackbar = Snackbar
-                    .make(splash, "No internet connection!", Snackbar.LENGTH_LONG);
+        tvProgressInfo.setText("Checking Internet connection.");
+        if (!CheckConnectivity.isNetConnected(this)){
+            Snackbar
+                    .make(splash, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            checkConnection();
+                        }
+                    }).show();
+        }else {
+            tvProgressInfo.setText("Internet connection found.");
 
-/*// Changing message text color
-            snackbar.setActionTextColor(Color.RED);
+            if (!prefManager.isPapersLoaded()) {
+                tvProgressInfo.setText("Loading Papers list..");
+                spiceManager.execute(roboRetroSpiceRequest, "bytepad", DurationInMillis.ONE_MINUTE, this);
+            }else {
 
-// Changing action button text color
-            View sbView = snackbar.getView();
-            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-            textView.setTextColor(Color.YELLOW);*/
-            snackbar.show();
+                tvProgressInfo.setText("Papers list loaded.");
+                checkDownloadDir();
+            }
         }
+    }
 
-
-
-
-
-
-
+    public void checkDownloadDir(){
+        if (TextUtils.isEmpty(prefManager.getDownloadPath())){
+            DialogFileDir dialogFileDir = new DialogFileDir();
+            dialogFileDir.show(getSupportFragmentManager(), "File Dialog");
+            dialogFileDir.setListener(new DialogFileDir.Listener() {
+                @Override
+                public void onDirSelected(String addr) {
+                    checkDownloadDir();
+                    Log.d("Bytepad", "Directory added " + addr);
+                }
+            });
+        }
+        else skip();
     }
     @Override
     protected void onStart() {
         super.onStart();
         Log.d("Bytepad", "On start called");
         spiceManager.start(this);
-        if (!prefManager.isPapersLoaded()) {
-            spiceManager.execute(roboRetroSpiceRequest, "bytepad", DurationInMillis.ONE_MINUTE, this);
-        }else
-            skip();
-
     }
 
+
     private void skip() {
+
+
         Intent intent = new Intent(Splash.this, MainActivity.class);
         startActivity(intent);
         finish();
@@ -102,55 +129,52 @@ public class Splash extends AppCompatActivity implements RequestListener<PaperMo
     }
     @Override
     public void onRequestFailure(SpiceException spiceException) {
-        Toast.makeText(this, "failure", Toast.LENGTH_SHORT).show();
         spiceException.printStackTrace();
         Log.d("Bytepad", "Request failure");
-        Snackbar snackbar = Snackbar
+        Snackbar
                 .make(splash, "No internet connection!", Snackbar.LENGTH_LONG)
                 .setAction("RETRY", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         checkConnection();
                     }
-                });
+                }).show();
     }
 
     @Override
     public void onRequestSuccess(final PaperModel.PapersList result) {
-        Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
         Log.d("Bytepad", "Request success");
-
-
-
         updatePapers(result);
-        skip();
+
     }
     public void updatePapers(final PaperModel.PapersList result) {
         Log.d("Bytepad", "Update papers called");
         //String originalText = search_paper.toString();
+tvProgressInfo.setText("Storing Papers list.");
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                new Delete().from(PaperDatabaseModel.class);
+                for (PaperModel paper : result) {
+                    PaperDatabaseModel paperDatabaseModel = new PaperDatabaseModel();
+                    paperDatabaseModel.Title = paper.Title;
+                    paperDatabaseModel.ExamCategory = paper.ExamCategory;
+                    paperDatabaseModel.PaperCategory = paper.PaperCategory;
+                    paperDatabaseModel.URL = paper.URL;
+                    paperDatabaseModel.RelativeURL = paper.RelativeURL;
+                    paperDatabaseModel.Size = paper.Size;
+                    paperDatabaseModel.downloaded = false;
+                    paperDatabaseModel.save();
+                }
+                return null;
+            }
 
-        StringBuilder builder = new StringBuilder();
-        builder.append(" ");
-        builder.append('\n');
-        builder.append('\n');
-        for (PaperModel p : result) {
-            builder.append('\t');
-            builder.append(p.Title);
-            builder.append('\t');
-            builder.append('(');
-            builder.append(p.ExamCategory);
-            builder.append(')');
-            builder.append(p.PaperCategory);
-            builder.append(')');
-            builder.append(p.URL);
-            builder.append(')');
-            builder.append(p.RelativeURL);
-            builder.append(')');
-            builder.append('\n');
-            pm = p;
-        }
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                checkDownloadDir();
+            }
+        }.execute();
 
-        Toast.makeText(this, builder.toString(), Toast.LENGTH_SHORT).show();
-        Log.d("Bytepad", builder.toString());
+
     }
 }

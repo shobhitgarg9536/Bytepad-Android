@@ -1,13 +1,22 @@
-package in.silive.bytepad.Models;
+package in.silive.bytepad;
 
 import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.util.List;
+
+import in.silive.bytepad.PaperDatabase;
 
 /**
  * Created by akriti on 5/8/16.
  */
-public class PaperDatabaseModel {
+@Table(database = PaperDatabase.class)
+public class PaperDatabaseModel extends BaseModel {
+    @Column
+    @PrimaryKey(autoincrement = true)
+    public int id;
     @Column
     public String Title;
     @Column
