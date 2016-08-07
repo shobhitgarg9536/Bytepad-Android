@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="5dp"
+    app:cardBackgroundColor="#00000000"
+    android:id="@+id/paper_cardview"
+    >
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/paper_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <ImageView
+android:scaleType="fitXY"
+            android:id="@+id/ivIcon"
+            android:src="@drawable/bytepad"
+            android:layout_weight="0"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/rl"
+            android:layout_marginStart="3dp"
+            android:background="@color/colorPrimaryDark"
+            android:layout_toRightOf="@id/ivIcon"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="3dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Paper Title"
+                    android:textColor="#ffffff"
+                    android:id="@+id/paper_title"
+                    android:textStyle="bold"
+                    android:textAppearance="@android:style/TextAppearance.Small"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Paper Category"
+                    android:id="@+id/paper_category"
+                    android:textColor="#ffffff"
+                    android:textAppearance="@android:style/TextAppearance.Small"/>
+            </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_margin="10dp"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentRight="true"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Download"
+        android:gravity="center"
+android:layout_weight="1"
+        android:padding="5dp"
+        android:id="@+id/tvDownload"
+        android:textColor="#ffffff"
+        android:textAppearance="@android:style/TextAppearance.Small"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Paper Size"
+        android:gravity="end"
+android:layout_weight="1"
+        android:padding="5dp"
+        android:id="@+id/paper_size"
+        android:textColor="#ffffff"
+        android:textAppearance="@android:style/TextAppearance.Small"/>
+</LinearLayout>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+</android.support.v7.widget.CardView>

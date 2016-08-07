@@ -24,4 +24,13 @@ public class PrefManager {
         editor.putBoolean(Config.PAPERS_LOADED,b);
         editor.apply();
     }
+
+    public String getDownloadPath(){
+        return pref.getString(Config.KEY_DOWNLOAD_DIR,"");
+    }
+
+    public void setDownloadPath(String downloadPath) {
+        editor.putString(Config.KEY_DOWNLOAD_DIR,downloadPath);
+        editor.apply();
+    }
 }
