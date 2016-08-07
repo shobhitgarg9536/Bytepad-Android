@@ -2,8 +2,6 @@ package in.silive.bytepad.Activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -14,7 +12,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mobapphome.mahandroidupdater.tools.MAHUpdaterController;
 import com.octo.android.robospice.SpiceManager;
@@ -22,15 +19,12 @@ import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.raizlabs.android.dbflow.sql.language.Delete;
-import com.raizlabs.android.dbflow.sql.language.Select;
 
-import in.silive.bytepad.Config;
 import in.silive.bytepad.Fragments.DialogFileDir;
 import in.silive.bytepad.Models.PaperModel;
 import in.silive.bytepad.Network.CheckConnectivity;
 import in.silive.bytepad.Network.RoboRetroSpiceRequest;
 import in.silive.bytepad.Network.RoboRetrofitService;
-import in.silive.bytepad.PaperDatabase;
 import in.silive.bytepad.PaperDatabaseModel;
 import in.silive.bytepad.PrefManager;
 import in.silive.bytepad.R;
@@ -180,5 +174,6 @@ tvProgressInfo.setText("Storing Papers list.");
     }
     public void checkUpdate(){
         MAHUpdaterController.init(this,"http://highsoft.az/mah-android-updater-sample.php");
+        MAHUpdaterController.callUpdate();
     }
 }
