@@ -55,21 +55,47 @@ public class MainActivity extends AppCompatActivity  {
         search_paper = (AutoCompleteTextView) findViewById(R.id.search_paper);
         Log.d("Bytepad", "Search bar added");
         tabview = (TabLayout)findViewById(R.id.tabview);
-        all = (TabItem)findViewById(R.id.all);
+      /*  all = (TabItem)findViewById(R.id.all);
         st = (TabItem)findViewById(R.id.st);
         put = (TabItem)findViewById(R.id.put);
         ut = (TabItem)findViewById(R.id.ut);
-        saved = (TabItem)findViewById(R.id.saved);
-        tabHost = new TabHost(this);
-        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+        saved = (TabItem)findViewById(R.id.saved)*/;
+        tabview.addTab(tabview.newTab().setText("ALL"),0);
+        tabview.addTab(tabview.newTab().setText("ST"),1);
+        tabview.addTab(tabview.newTab().setText("PUT"),2);
+        tabview.addTab(tabview.newTab().setText("UT"),3);
+        tabview.addTab(tabview.newTab().setText("SAVED"),4);
+        tabview.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabChanged(String s) {
-                int i = tabHost.getCurrentTab();
+            public void onTabSelected(TabLayout.Tab tab) {
+                int i = tab.getPosition();
                 switch (i){
+                    case 0:paperType = "%";
+                        break;
+                    case 1:paperType = "ST";
+                        break;
+                    case 2:paperType = "PUT";
+                        break;
+                    case 3:paperType = "UT";
+                        break;
+                    case  4: paperType = "download";
+                        break;
 
                 }
+                setUpList(query);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
+
         Log.d("Bytepad", "Tab Layout added");
         FlowManager.init(new FlowConfig.Builder(this).build());
         Log.d("Bytepad", "DB flow instantiated");

@@ -51,6 +51,7 @@ android:scaleType="fitXY"
                     android:text="Paper Category"
                     android:id="@+id/paper_category"
                     android:textColor="#ffffff"
+                    android:singleLine="true"
                     android:textAppearance="@android:style/TextAppearance.Small"/>
             </LinearLayout>
 <LinearLayout

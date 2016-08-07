@@ -1,7 +1,9 @@
 package in.silive.bytepad.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.List;
 
 import in.silive.bytepad.Models.PaperModel;
@@ -65,10 +68,11 @@ public class PapersListAdapter extends RecyclerView.Adapter<PapersListAdapter.Pa
         holder.tvPaperTitle.setText(paper.Title);
         holder.tvPaperCategory.setText(paper.PaperCategory);
         holder.tvPaperTitle.setText(paper.Title);
+        holder.tvPaperSize.setText(paper.Size);
         int paperImgId;
-        if (paper.Title.contains("doc"))
+        if (paper.Title.contains("doc") ||paper.Title.contains("DOC")||paper.Title.contains("Doc"))
             paperImgId = R.drawable.doc;
-        else if (paper.Title.contains("rtf"))
+        else if (paper.Title.contains("rtf")||paper.Title.contains("RTF")||paper.Title.contains("Rtf"))
             paperImgId = R.drawable.rtf ;
         else
             paperImgId = R.drawable.pdf;
@@ -80,6 +84,7 @@ public class PapersListAdapter extends RecyclerView.Adapter<PapersListAdapter.Pa
                 @Override
                 public void onClick(View view) {
                     //todo view paper
+                    openDocument(paper.dwnldPath);
                 }
             });
         }
@@ -95,5 +100,17 @@ public class PapersListAdapter extends RecyclerView.Adapter<PapersListAdapter.Pa
         }
 
 
+    }
+    public void openDocument(String name) {
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
+        File file = new File(name);
+        String extension = android.webkit.MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(file).toString());
+        String mimetype = android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+        if (extension.equalsIgnoreCase("") || mimetype == null) {
+            intent.setDataAndType(Uri.fromFile(file), "text/*");
+        } else {
+            intent.setDataAndType(Uri.fromFile(file), mimetype);
+        }
+        context.startActivity(Intent.createChooser(intent, "Choose an Application:"));
     }
 }
