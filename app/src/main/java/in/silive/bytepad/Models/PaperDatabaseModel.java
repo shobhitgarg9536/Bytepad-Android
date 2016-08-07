@@ -1,6 +1,7 @@
 package in.silive.bytepad.Models;
 
 import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
@@ -12,7 +13,7 @@ import in.silive.bytepad.PaperDatabase;
  * Created by akriti on 5/8/16.
  */
 @Table(database = PaperDatabase.class)
-@Parcel(analyze={PaperDatabaseModel.class})
+/*@Parcel(analyze={PaperDatabaseModel.class})*/
 public class PaperDatabaseModel extends BaseModel {
     @Column
     public String Title;
@@ -23,6 +24,7 @@ public class PaperDatabaseModel extends BaseModel {
     @Column
     public String Size;
     @Column
+    @PrimaryKey
     public String URL;
     @Column
     public String RelativeURL;

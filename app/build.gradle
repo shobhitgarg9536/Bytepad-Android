@@ -29,6 +29,7 @@ dependencies {
     compile 'com.github.florent37:materialtextfield:1.0.5'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
     compile 'com.android.support:recyclerview-v7:24.1.1'
+    compile 'com.mobapphome.library:mah-android-updater:1.0.12'
     apply plugin: 'com.neenbedankt.android-apt'
 
     def dbflow_version = "3.1.1"

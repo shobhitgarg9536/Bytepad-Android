@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.mobapphome.mahandroidupdater.tools.MAHUpdaterController;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
@@ -152,5 +153,8 @@ public class Splash extends AppCompatActivity implements RequestListener<PaperMo
 
         Toast.makeText(this, builder.toString(), Toast.LENGTH_SHORT).show();
         Log.d("Bytepad", builder.toString());
+    }
+    public void checkUpdate(){
+        MAHUpdaterController.init(this,"http://highsoft.az/mah-android-updater-sample.php");
     }
 }

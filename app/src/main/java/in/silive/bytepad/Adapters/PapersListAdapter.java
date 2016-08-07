@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -88,14 +87,14 @@ public class PapersListAdapter extends RecyclerView.Adapter<PapersListAdapter.Pa
                         connection.setDoOutput(true);*/
                         connection.connect();
                         InputStream inputStream = connection.getInputStream();
-                        FileOutputStream file = new FileOutputStream();
+                        /*FileOutputStream file = new FileOutputStream();
                         int size_of_file = connection.getContentLength();
                         byte[] buffer = new byte[1024000];
                         int bufferLength = 0;
                         while((bufferLength = inputStream.read(buffer))>0 ){
                             file.write(buffer, 0, bufferLength);
                         }
-                        file.close();
+                        file.close();*/
 
                     }
                     catch (FileNotFoundException e) {
