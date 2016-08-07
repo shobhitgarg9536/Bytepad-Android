@@ -55,32 +55,34 @@ public class Splash extends AppCompatActivity implements RequestListener<PaperMo
         Log.d("Bytepad", "Spice manager initialized");
         roboRetroSpiceRequest = new RoboRetroSpiceRequest();
         Log.d("Bytepad", "Spice request initialized");
-checkConnection();
+        checkPapersList();
     }
 
 
-    public void checkConnection() {
+    public void checkPapersList() {
+            if (!prefManager.isPapersLoaded()) {
+               downloadPaperList();
+            }else {
+                tvProgressInfo.setText("Papers list loaded.");
+                checkDownloadDir();
+            }
+    }
+
+    public void downloadPaperList(){
         tvProgressInfo.setText("Checking Internet connection.");
         if (!CheckConnectivity.isNetConnected(this)){
             Snackbar
-                    .make(splash, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .make(splash, "No internet connection!", Snackbar.LENGTH_INDEFINITE)
                     .setAction("RETRY", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            checkConnection();
+                            downloadPaperList();
                         }
                     }).show();
         }else {
             tvProgressInfo.setText("Internet connection found.");
-
-            if (!prefManager.isPapersLoaded()) {
-                tvProgressInfo.setText("Loading Papers list..");
-                spiceManager.execute(roboRetroSpiceRequest, "bytepad", DurationInMillis.ONE_MINUTE, this);
-            }else {
-
-                tvProgressInfo.setText("Papers list loaded.");
-                checkDownloadDir();
-            }
+            tvProgressInfo.setText("Loading Papers list..");
+            spiceManager.execute(roboRetroSpiceRequest, "bytepad", DurationInMillis.ONE_MINUTE, this);
         }
     }
 
@@ -107,8 +109,6 @@ checkConnection();
 
 
     private void skip() {
-
-
         Intent intent = new Intent(Splash.this, MainActivity.class);
         startActivity(intent);
         finish();
@@ -127,11 +127,11 @@ checkConnection();
         spiceException.printStackTrace();
         Log.d("Bytepad", "Request failure");
         Snackbar
-                .make(splash, "No internet connection!", Snackbar.LENGTH_LONG)
+                .make(splash, "No internet connection!", Snackbar.LENGTH_INDEFINITE)
                 .setAction("RETRY", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        checkConnection();
+                        downloadPaperList();
                     }
                 }).show();
     }

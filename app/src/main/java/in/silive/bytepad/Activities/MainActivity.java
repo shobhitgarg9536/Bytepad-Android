@@ -3,12 +3,14 @@ package in.silive.bytepad.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -16,6 +18,8 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 
 import com.raizlabs.android.dbflow.config.FlowConfig;
@@ -30,6 +34,7 @@ import java.util.List;
 import in.silive.bytepad.Adapters.PapersListAdapter;
 import in.silive.bytepad.Fragments.DialogFileDir;
 import in.silive.bytepad.Models.PaperModel;
+import in.silive.bytepad.Network.CheckConnectivity;
 import in.silive.bytepad.PaperDatabaseModel;
 import in.silive.bytepad.PaperDatabaseModel_Table;
 import in.silive.bytepad.R;
@@ -45,16 +50,33 @@ public class MainActivity extends AppCompatActivity  {
     PapersListAdapter adapter;
     String query = "%";
     String paperType = "%";
+    Toolbar toolbar;
+    ImageView ivClearSearch;
+    public CoordinatorLayout coordinatorLayout;
+    RelativeLayout recyclerEmptyView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        coordinatorLayout = (CoordinatorLayout)findViewById(R.id.coordinatorLayout);
         Log.d("Bytepad", "MainActivity created");
         search_paper = (AutoCompleteTextView) findViewById(R.id.search_paper);
         Log.d("Bytepad", "Search bar added");
         tabview = (TabLayout)findViewById(R.id.tabview);
+        Log.d("Bytepad", "Tab Layout added");
+        rview = (RecyclerView)findViewById(R.id.rview);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        rview.setLayoutManager(mLayoutManager);
+        query="";
+        ivClearSearch = (ImageView)findViewById(R.id.ivClearSearch);
+        recyclerEmptyView = (RelativeLayout)findViewById(R.id.recyclerEmptyView);
+        setUpList(query);
+
+
       /*  all = (TabItem)findViewById(R.id.all);
         st = (TabItem)findViewById(R.id.st);
         put = (TabItem)findViewById(R.id.put);
@@ -72,11 +94,11 @@ public class MainActivity extends AppCompatActivity  {
                 switch (i){
                     case 0:paperType = "%";
                         break;
-                    case 1:paperType = "ST";
+                    case 1:paperType = "ST%";
                         break;
-                    case 2:paperType = "PUT";
+                    case 2:paperType = "PUT%";
                         break;
-                    case 3:paperType = "UT";
+                    case 3:paperType = "UT%";
                         break;
                     case  4: paperType = "download";
                         break;
@@ -95,15 +117,12 @@ public class MainActivity extends AppCompatActivity  {
 
             }
         });
+        if (!CheckConnectivity.isNetConnected(this)){
+            TabLayout.Tab tab = tabview.getTabAt(4);
+            tab.select();
+        }
 
-        Log.d("Bytepad", "Tab Layout added");
-        FlowManager.init(new FlowConfig.Builder(this).build());
-        Log.d("Bytepad", "DB flow instantiated");
-        rview = (RecyclerView)findViewById(R.id.rview);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        rview.setLayoutManager(mLayoutManager);
-        query="";
-        setUpList(query);
+
 
         search_paper.addTextChangedListener(new TextWatcher() {
             @Override
@@ -121,19 +140,31 @@ public class MainActivity extends AppCompatActivity  {
                 setUpList(query);
             }
         });
-    }
 
+        ivClearSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                search_paper.setText("");
+            }
+        });
+    }
     public void setUpList(String query){
         SQLCondition secondCondition;
         if (paperType.equalsIgnoreCase("download"))
             secondCondition= PaperDatabaseModel_Table.downloaded.is(true);
         else
-            secondCondition = PaperDatabaseModel_Table.ExamCategory.like("%"+paperType+"%");
+            secondCondition = PaperDatabaseModel_Table.ExamCategory.like(paperType);
         paperList = new Select().from(PaperDatabaseModel.class)
                 .where(PaperDatabaseModel_Table.Title.like("%"+query+"%"),secondCondition)
                 .queryList();
-        adapter = new PapersListAdapter(this,paperList);
+        adapter = new PapersListAdapter(this, paperList);
         rview.setAdapter(adapter);
+        if (paperList.size()!=0) {
+            recyclerEmptyView.setVisibility(View.GONE);
+        }else{
+            recyclerEmptyView.setVisibility(View.VISIBLE);
+        }
+
 
     }
 }

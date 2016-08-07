@@ -170,8 +170,10 @@ public class DialogFileDir extends DialogFragment {
                             + File.separator + "bytepad");
                     file.mkdirs();
                     prefManager.setDownloadPath(file.getAbsolutePath());
-
+                        if (listener!=null)
+                            listener.onDirSelected(file.getAbsolutePath());
                 }
+
                 dismiss();
             }
         });

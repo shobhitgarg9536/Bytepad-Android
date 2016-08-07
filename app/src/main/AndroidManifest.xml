@@ -14,10 +14,10 @@
     <application
         android:name=".Application.DatabaseApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_bytepad"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppThemeNoActionBar">
         <activity android:name=".Activities.Splash"
             android:theme="@style/AppThemeNoActionBar">
             <intent-filter>
@@ -26,14 +26,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.MainActivity" />
-
+        <activity android:name=".Activities.MainActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <service android:name=".Network.RoboRetrofitService" />
 
         <activity android:name=".Activities.ViewPaperActivity"
             android:theme="@style/AppThemeNoActionBar"
             ></activity>
-
     </application>
 
 </manifest>

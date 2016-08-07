@@ -9,14 +9,15 @@
     </style>
     <style name="AppThemeNoActionBar" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
     <style name="NavigationTab" parent="Widget.Design.TabLayout">
        <!-- <item name="tabBackground">@color/background_tab</item>-->
-        <item name="tabSelectedTextColor">@color/colorPrimaryDark</item>
-        <item name="tabIndicatorColor">@color/colorAccent</item>
+        <item name="tabSelectedTextColor">#212121</item>
+        <item name="tabIndicatorColor">#979797</item>
         <item name="tabTextAppearance">@style/NavigationTabTextAppeareance</item>
     </style>
 

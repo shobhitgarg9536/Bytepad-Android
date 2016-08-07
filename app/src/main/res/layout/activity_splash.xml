@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBg"
     android:id="@+id/splash"
    >
     <!--Todo correct bytepad logo -->
@@ -28,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="Loading"
+        android:textColor="@color/textDark"
         android:id="@+id/tvProgressInfo"
         android:layout_above="@id/progressBar"
         />
