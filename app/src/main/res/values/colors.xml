@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#d44c27</color>
-    <color name="colorPrimaryDark">#c3583e</color>
+    <color name="colorPrimary">#ff5d3b</color>
+    <color name="colorPrimaryDark">#ef3e1e</color>
     <color name="colorAccent">#000000</color>
     <color name="colorBg">#e4e2e3</color>
     <color name="mah_android_upd_window_background_color">#FFFFFFFF</color>

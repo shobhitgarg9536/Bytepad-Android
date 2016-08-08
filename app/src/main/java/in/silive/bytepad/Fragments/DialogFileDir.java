@@ -206,42 +206,6 @@ public class DialogFileDir extends DialogFragment {
         lvDir.setAdapter(adapter);
     }
 
-    public boolean CheckExtStorageAvailable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            Toast.makeText(getContext(), "External Storage Available", Toast.LENGTH_SHORT).show();
-            Log.d("Bytepad", "External Storage Available");
-            return true;
-        }
-        Toast.makeText(getContext(), "External Storage UnAvailable", Toast.LENGTH_SHORT).show();
-        Log.d("Bytepad", "External Storage UnAvailable");
-        return false;
-    }
-
-    public boolean CheckExternalStorageReadable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            Toast.makeText(getContext(), "External Storage Readable", Toast.LENGTH_SHORT).show();
-            Log.d("Bytepad", "External Storage Readable");
-            return true;
-        }
-        Toast.makeText(getContext(), "External Storage not Readable", Toast.LENGTH_SHORT).show();
-        Log.d("Bytepad", "External Storage not Readable");
-        return false;
-    }
-
-    public File GetPaperStorageDir(Context context, String albumName) {
-        // Get the directory for the app's private pictures directory.
-        File file = new File(context.getExternalFilesDir(
-                Environment.DIRECTORY_DOWNLOADS), albumName);
-        if (!file.mkdirs()) {
-            Log.d("Bytepad", "Directory not created");
-        } else {
-            Log.d("Bytepad", "Directory created");
-        }
-        return file;
-    }
 
     public static interface Listener {
         public void onDirSelected(String addr);

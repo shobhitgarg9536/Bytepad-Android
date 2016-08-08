@@ -1,7 +1,9 @@
 package in.silive.bytepad.Activities;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -19,15 +21,22 @@ import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.raizlabs.android.dbflow.sql.language.Delete;
+import com.raizlabs.android.dbflow.sql.language.Select;
 
+import java.util.List;
+
+import in.silive.bytepad.DownloadQueue;
+import in.silive.bytepad.DownloadQueue_Table;
 import in.silive.bytepad.Fragments.DialogFileDir;
 import in.silive.bytepad.Models.PaperModel;
 import in.silive.bytepad.Network.CheckConnectivity;
 import in.silive.bytepad.Network.RoboRetroSpiceRequest;
 import in.silive.bytepad.Network.RoboRetrofitService;
 import in.silive.bytepad.PaperDatabaseModel;
+import in.silive.bytepad.PaperDatabaseModel_Table;
 import in.silive.bytepad.PrefManager;
 import in.silive.bytepad.R;
+import in.silive.bytepad.Util;
 
 public class Splash extends AppCompatActivity implements RequestListener<PaperModel.PapersList> {
     Context context;
@@ -80,8 +89,7 @@ public class Splash extends AppCompatActivity implements RequestListener<PaperMo
                         }
                     }).show();
         }else {
-            tvProgressInfo.setText("Internet connection found.");
-            tvProgressInfo.setText("Loading Papers list..");
+            tvProgressInfo.setText("Downloading Papers list.");
             spiceManager.execute(roboRetroSpiceRequest, "bytepad", DurationInMillis.ONE_MINUTE, this);
         }
     }
@@ -98,7 +106,7 @@ public class Splash extends AppCompatActivity implements RequestListener<PaperMo
                 }
             });
         }
-        else skip();
+        else checkDownloadList();
     }
     @Override
     protected void onStart() {
@@ -108,7 +116,7 @@ public class Splash extends AppCompatActivity implements RequestListener<PaperMo
     }
 
 
-    private void skip() {
+    private void moveToNextActivity() {
         Intent intent = new Intent(Splash.this, MainActivity.class);
         startActivity(intent);
         finish();
@@ -143,9 +151,8 @@ public class Splash extends AppCompatActivity implements RequestListener<PaperMo
 
     }
     public void updatePapers(final PaperModel.PapersList result) {
-        Log.d("Bytepad", "Update papers called");
-        //String originalText = search_paper.toString();
-tvProgressInfo.setText("Storing Papers list.");
+        Log.d("Bytepad", "Updating papers in DB");
+        tvProgressInfo.setText("Saving Papers list.");
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
@@ -177,4 +184,21 @@ tvProgressInfo.setText("Storing Papers list.");
         MAHUpdaterController.init(this,"http://highsoft.az/mah-android-updater-sample.php");
         MAHUpdaterController.callUpdate();
     }
+
+    public void checkDownloadList(){
+        List<DownloadQueue> list = new Select().from(DownloadQueue.class).queryList();
+        for (DownloadQueue item : list){
+            if (Util.isDownloadComplete(context,item.reference)){
+                PaperDatabaseModel paper = new Select().from(PaperDatabaseModel.class)
+                        .where(PaperDatabaseModel_Table.id.eq(item.paperId)).querySingle();
+                paper.downloaded = true;
+                paper.dwnldPath = item.dwnldPath ;
+                paper.update();
+                new Delete().from(DownloadQueue.class).where(DownloadQueue_Table.reference.eq(item.reference)).query();
+            }
+        }
+        moveToNextActivity();
+    }
+
+
 }

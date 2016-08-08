@@ -18,15 +18,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.raizlabs.android.dbflow.sql.language.Delete;
+import com.raizlabs.android.dbflow.sql.language.Select;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 
 import in.silive.bytepad.Activities.MainActivity;
+import in.silive.bytepad.DownloadQueue;
+import in.silive.bytepad.DownloadQueue_Table;
 import in.silive.bytepad.Network.CheckConnectivity;
 import in.silive.bytepad.PaperDatabaseModel;
+import in.silive.bytepad.PaperDatabaseModel_Table;
 import in.silive.bytepad.PrefManager;
 import in.silive.bytepad.R;
+import in.silive.bytepad.Util;
 
 /**
  * Created by akriti on 6/8/16.
@@ -98,7 +105,7 @@ public class PapersListAdapter extends RecyclerView.Adapter<PapersListAdapter.Pa
                 @Override
                 public void onClick(View view) {
                     //todo view paper
-                    openDocument(paper.dwnldPath);
+                    Util.openDocument(context,paper.dwnldPath);
                 }
             });
         } else {
@@ -107,7 +114,7 @@ public class PapersListAdapter extends RecyclerView.Adapter<PapersListAdapter.Pa
             holder.rl.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    downloadPaper(paper);
+                    Util.downloadPaper(context,paper);
                 }
             });
 
@@ -115,109 +122,6 @@ public class PapersListAdapter extends RecyclerView.Adapter<PapersListAdapter.Pa
 
     }
 
-    private void downloadPaper(final PaperDatabaseModel paper) {
-        if (!CheckConnectivity.isNetConnected(context)){
-            Snackbar
-                    .make(((MainActivity)context).coordinatorLayout, "No internet connection!", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            downloadPaper(paper);
-                        }
-                    }).show();
-        }else {
-            final DownloadManager downloadManager;
-            String file_url = paper.URL;
-            file_url = file_url.replace(" ", "%20");
-            final long downloadReference;
-            BroadcastReceiver recieveDownloadComplete, notificationClicked;
-            downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-            Uri uri = Uri.parse(file_url);
-            DownloadManager.Request request = new DownloadManager.Request(uri);
-            request.setTitle(paper.Title);
-            request.setDescription("Bytepad Paper Download");
-            final Uri uri1 = Uri.parse("file://" + prefManager.getDownloadPath() + "/" + paper.Title);
-            request.setDestinationUri(uri1);
-            request.setVisibleInDownloadsUi(true);
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE | DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
-            downloadReference = downloadManager.enqueue(request);
-            showSnackBar("Download Started : " + paper.Title);
-            IntentFilter intentFilter = new IntentFilter(DownloadManager.ACTION_NOTIFICATION_CLICKED);
-            notificationClicked = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    String id = DownloadManager.EXTRA_NOTIFICATION_CLICK_DOWNLOAD_IDS;
-                    long[] references = intent.getLongArrayExtra(id);
-                    for (long reference : references) {
-                        if (reference == downloadReference) {
-                            // Todo OnNotification Clicked
-                            try {
-                                downloadManager.openDownloadedFile(downloadReference);
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
 
-                }
-            };
-            context.registerReceiver(notificationClicked, intentFilter);
-            IntentFilter intentFilterDownload = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
-            recieveDownloadComplete = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    long reference = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-                    if (downloadReference == reference) {
-                        DownloadManager.Query query = new DownloadManager.Query();
-                        query.setFilterById(reference);
-                        Cursor cursor = downloadManager.query(query);
-                        cursor.moveToFirst();
-                        int colmIndx = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
-                        int status = cursor.getInt(colmIndx);
-                        int fileNameIndex = cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI);
-                        String savedFilePath = cursor.getString(fileNameIndex);
-                        switch (status) {
-                            case DownloadManager.STATUS_SUCCESSFUL:
-                                showSnackBar(paper.Title + " downloaded");
-                                paper.downloaded = true;
-                                paper.dwnldPath = uri1.getPath();
-                                paper.update();
-                                break;
-                            case DownloadManager.STATUS_FAILED:
-                                showSnackBar("Download Unuccessful");
-                                break;
-                            case DownloadManager.STATUS_PAUSED:
-                                Toast.makeText(context, "Download Paused", Toast.LENGTH_SHORT).show();
-                                break;
-                            case DownloadManager.STATUS_RUNNING:
-                                Toast.makeText(context, "Downloading", Toast.LENGTH_SHORT).show();
-                                break;
-                            case DownloadManager.STATUS_PENDING:
-                                Toast.makeText(context, "Download Pending", Toast.LENGTH_SHORT).show();
-                                break;
-                        }
 
-                    }
-                }
-            };
-            context.registerReceiver(recieveDownloadComplete, intentFilterDownload);
-        }
-    }
-
-    public void showSnackBar(String s){
-        Snackbar.make(((MainActivity)context).coordinatorLayout ,s,Snackbar.LENGTH_LONG).show();
-    }
-    public void openDocument(String name) {
-        Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
-        File file = new File(name);
-        String extension = android.webkit.MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(file).toString());
-        String mimetype = android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-        if (extension.equalsIgnoreCase("") || mimetype == null) {
-            intent.setDataAndType(Uri.fromFile(file), "text/*");
-        } else {
-            intent.setDataAndType(Uri.fromFile(file), mimetype);
-        }
-        context.startActivity(Intent.createChooser(intent, "Choose an Application:"));
-    }
 }

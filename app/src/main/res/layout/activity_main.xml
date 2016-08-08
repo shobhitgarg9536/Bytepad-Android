@@ -13,10 +13,14 @@
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/toolbar"></android.support.v7.widget.Toolbar>
+            app:title="@string/app_name"
+            android:id="@+id/toolbar">
+        </android.support.v7.widget.Toolbar>
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_margin="5dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="13dp"
+            android:layout_marginBottom="10dp"
             app:cardCornerRadius="15dp"
             app:cardBackgroundColor="#ffffff"
             android:layout_height="wrap_content">
@@ -47,6 +51,7 @@
                     android:textSize="15sp" />
                 <ImageView
                     android:layout_width="25dp"
+                    android:padding="3dp"
                     android:tint="@color/textDark"
                     android:src="@android:drawable/ic_menu_close_clear_cancel"
                     android:layout_weight="0"
@@ -90,7 +95,7 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
       android:background="@color/colorPrimary"
-        app:tabTextColor="#a1a1a1"
+        app:tabTextColor="#fdfdfd"
         app:tabSelectedTextColor="#212121"
         app:tabIndicatorColor="#FFFC2525"
         android:layout_gravity="bottom"

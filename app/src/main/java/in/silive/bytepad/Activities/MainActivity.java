@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -38,8 +39,9 @@ import in.silive.bytepad.Network.CheckConnectivity;
 import in.silive.bytepad.PaperDatabaseModel;
 import in.silive.bytepad.PaperDatabaseModel_Table;
 import in.silive.bytepad.R;
+import in.silive.bytepad.SnackBarListener;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity  implements SnackBarListener{
     public AutoCompleteTextView search_paper;
     public Context c;
     public RecyclerView rview;
@@ -75,13 +77,6 @@ public class MainActivity extends AppCompatActivity  {
         ivClearSearch = (ImageView)findViewById(R.id.ivClearSearch);
         recyclerEmptyView = (RelativeLayout)findViewById(R.id.recyclerEmptyView);
         setUpList(query);
-
-
-      /*  all = (TabItem)findViewById(R.id.all);
-        st = (TabItem)findViewById(R.id.st);
-        put = (TabItem)findViewById(R.id.put);
-        ut = (TabItem)findViewById(R.id.ut);
-        saved = (TabItem)findViewById(R.id.saved)*/;
         tabview.addTab(tabview.newTab().setText("ALL"),0);
         tabview.addTab(tabview.newTab().setText("ST"),1);
         tabview.addTab(tabview.newTab().setText("PUT"),2);
@@ -121,9 +116,6 @@ public class MainActivity extends AppCompatActivity  {
             TabLayout.Tab tab = tabview.getTabAt(4);
             tab.select();
         }
-
-
-
         search_paper.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -148,6 +140,7 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
     }
+
     public void setUpList(String query){
         SQLCondition secondCondition;
         if (paperType.equalsIgnoreCase("download"))
@@ -165,6 +158,10 @@ public class MainActivity extends AppCompatActivity  {
             recyclerEmptyView.setVisibility(View.VISIBLE);
         }
 
+    }
 
+    @Override
+    public CoordinatorLayout getCoordinatorLayout() {
+        return this.coordinatorLayout;
     }
 }
