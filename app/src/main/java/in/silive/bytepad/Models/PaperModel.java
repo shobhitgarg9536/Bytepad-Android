@@ -4,12 +4,22 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by akriti on 2/8/16.
  */
-public class PaperModel implements Parcelable{
+public class PaperModel implements Parcelable {
+    public static final Creator CREATOR = new Creator() {
+        @Override
+        public PaperModel createFromParcel(Parcel parcel) {
+            return new PaperModel(parcel);
+        }
+
+        @Override
+        public PaperModel[] newArray(int i) {
+            return new PaperModel[i];
+        }
+    };
     public String Title;
     public String ExamCategory;
     public String PaperCategory;
@@ -17,12 +27,13 @@ public class PaperModel implements Parcelable{
     public String URL;
     public String RelativeURL;
 
-    public PaperModel(String title, String size) {
-        this.Title = title;
-        this.Size = size;
-    }
-
-    public PaperModel() {
+    private PaperModel(Parcel in) {
+        Title = in.readString();
+        ExamCategory = in.readString();
+        PaperCategory = in.readString();
+        Size = in.readString();
+        URL = in.readString();
+        RelativeURL = in.readString();
     }
 
     public String getExamCategory() {
@@ -32,7 +43,6 @@ public class PaperModel implements Parcelable{
     public void setExamCategory(String examCategory) {
         ExamCategory = examCategory;
     }
-
 
     public String getPaperCategory() {
         return PaperCategory;
@@ -74,15 +84,6 @@ public class PaperModel implements Parcelable{
         this.URL = URL;
     }
 
-    public PaperModel(Parcel in){
-      Title = in.readString();
-      ExamCategory = in.readString();
-      PaperCategory = in.readString();
-      Size = in.readString();
-      URL = in.readString();
-     RelativeURL = in.readString();
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -97,17 +98,6 @@ public class PaperModel implements Parcelable{
         parcel.writeString(URL);
         parcel.writeString(RelativeURL);
     }
-    public static final Creator CREATOR = new Creator() {
-        @Override
-        public PaperModel createFromParcel(Parcel parcel) {
-            return new PaperModel(parcel);
-        }
-
-        @Override
-        public PaperModel[] newArray(int i) {
-            return new PaperModel[i];
-        }
-    };
 
     @SuppressWarnings("serial")
     public static class PapersList extends ArrayList<PaperModel> {

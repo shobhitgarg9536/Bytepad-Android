@@ -52,8 +52,6 @@ public class MainActivity extends AppCompatActivity implements SnackBarListener,
     public Context c;
     public RecyclerView rview;
     public TabLayout tabview;
-    public TabItem all, st, put, ut, saved;
-    public TabHost tabHost;
     public CoordinatorLayout coordinatorLayout;
     PapersListAdapter adapter;
     String query = "%";
@@ -63,14 +61,13 @@ public class MainActivity extends AppCompatActivity implements SnackBarListener,
     RelativeLayout recyclerEmptyView;
     FlowContentObserver observer;
     PrefManager prefManager;
-    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BytepadApplication application = (BytepadApplication)getApplication();
-        mTracker = application.getDefaultTracker();
+        Tracker mTracker = application.getDefaultTracker();
         mTracker.setScreenName("MainActivity");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         prefManager = new PrefManager(this);
@@ -203,8 +200,6 @@ public class MainActivity extends AppCompatActivity implements SnackBarListener,
             }
         }
     }
-
-
     private void updateModelView(int id) {
         for (int i = 0; i < adapter.getItemCount(); i++) {
             if (id == adapter.getPapersList().get(i).id) {

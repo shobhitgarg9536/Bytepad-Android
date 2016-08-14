@@ -31,13 +31,13 @@ import in.silive.bytepad.Network.CheckConnectivity;
 public class Util {
     public static boolean isDownloadComplete(Activity context, long downloadId) {
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-        Cursor c= downloadManager.query(new DownloadManager.Query().setFilterById(downloadId));
+        Cursor c = downloadManager.query(new DownloadManager.Query().setFilterById(downloadId));
 
-        if(c.moveToFirst()){
+        if (c.moveToFirst()) {
             int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
-            if(status == DownloadManager.STATUS_SUCCESSFUL){
+            if (status == DownloadManager.STATUS_SUCCESSFUL) {
                 return true;
-            }else{
+            } else {
                 int reason = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_REASON));
                 Log.d("Bytepad", "Download not correct, status [" + status + "] reason [" + reason + "]");
                 return false;
@@ -46,45 +46,45 @@ public class Util {
         return false;
     }
 
-    public static void openDocument(Activity context ,String name) {
-        BytepadApplication application = (BytepadApplication)context.getApplication();
+    public static void openDocument(Activity context, String name) {
+        BytepadApplication application = (BytepadApplication) context.getApplication();
         Tracker mTracker = application.getDefaultTracker();
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
         File file = new File(name);
         String extension = android.webkit.MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(file).toString());
         String mimetype = android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
         if (extension.equalsIgnoreCase("") || mimetype == null) {
-            showSnackBar(context,"No document viewer found.");
+            showSnackBar(context, "No document viewer found.");
             mTracker.send(new HitBuilders.EventBuilder()
                     .setCategory("View Paper")
                     .setAction("opening")
-                    .set("Viewer","not found")
+                    .set("Viewer", "not found")
                     .build());
         } else {
             intent.setDataAndType(Uri.fromFile(file), mimetype);
             mTracker.send(new HitBuilders.EventBuilder()
                     .setCategory("View Paper")
                     .setAction("opening")
-                    .set("Viewer","found")
+                    .set("Viewer", "found")
                     .build());
         }
         context.startActivity(Intent.createChooser(intent, "Choose an Application:"));
     }
 
     public static void downloadPaper(final Activity context, final PaperDatabaseModel paper) {
-        BytepadApplication application = (BytepadApplication)context.getApplication();
+        BytepadApplication application = (BytepadApplication) context.getApplication();
         final Tracker mTracker = application.getDefaultTracker();
         PrefManager prefManager = new PrefManager(context);
-        if (!CheckConnectivity.isNetConnected(context)){
+        if (!CheckConnectivity.isNetConnected(context)) {
             Snackbar
-                    .make(((MainActivity)context).coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .make(((MainActivity) context).coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                     .setAction("RETRY", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            downloadPaper(context,paper);
+                            downloadPaper(context, paper);
                         }
                     }).show();
-        }else {
+        } else {
             final DownloadManager downloadManager;
             String file_url = paper.URL;
             file_url = file_url.replace(" ", "%20");
@@ -98,7 +98,7 @@ public class Util {
             final Uri uri1 = Uri.parse("file://" + prefManager.getDownloadPath() + "/" + paper.Title);
             request.setDestinationUri(uri1);
             request.setVisibleInDownloadsUi(true);
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE | DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
             downloadReference = downloadManager.enqueue(request);
 
@@ -107,7 +107,7 @@ public class Util {
             queueItem.reference = downloadReference;
             queueItem.paperId = paper.id;
             queueItem.save();
-            showSnackBar(context,"Download Started : " + paper.Title);
+            showSnackBar(context, "Download Started : " + paper.Title);
             IntentFilter intentFilter = new IntentFilter(DownloadManager.ACTION_NOTIFICATION_CLICKED);
             notificationClicked = new BroadcastReceiver() {
                 @Override
@@ -142,14 +142,14 @@ public class Util {
                         int fileNameIndex = cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI);
                         switch (status) {
                             case DownloadManager.STATUS_SUCCESSFUL:
-                                showSnackBar(context,paper.Title + " downloaded");
+                                showSnackBar(context, paper.Title + " downloaded");
                                 paper.downloaded = true;
                                 paper.dwnldPath = uri1.getPath();
                                 paper.update();
                                 mTracker.send(new HitBuilders.EventBuilder()
                                         .setCategory("Download")
                                         .setAction("Paper download")
-                                        .set("Result","Success")
+                                        .set("Result", "Success")
                                         .build());
                                 FlowContentObserver.setShouldForceNotify(true);
                                 new Delete().from(DownloadQueue.class).where(DownloadQueue_Table.paperId.eq(paper.id)).query();
@@ -158,9 +158,9 @@ public class Util {
                                 mTracker.send(new HitBuilders.EventBuilder()
                                         .setCategory("Download")
                                         .setAction("Paper download")
-                                        .set("Result","failed")
+                                        .set("Result", "failed")
                                         .build());
-                                showSnackBar(context,"Download Unuccessful");
+                                showSnackBar(context, "Download Unuccessful");
                                 break;
                             case DownloadManager.STATUS_PAUSED:
                                 Toast.makeText(context, "Download Paused", Toast.LENGTH_SHORT).show();
@@ -179,8 +179,9 @@ public class Util {
             context.registerReceiver(recieveDownloadComplete, intentFilterDownload);
         }
     }
-    public static void showSnackBar(Context context,String s){
-        Snackbar.make(((SnackBarListener)context).getCoordinatorLayout() ,s,Snackbar.LENGTH_SHORT).show();
+
+    private static void showSnackBar(Context context, String s) {
+        Snackbar.make(((SnackBarListener) context).getCoordinatorLayout(), s, Snackbar.LENGTH_SHORT).show();
     }
 
 }

@@ -55,8 +55,7 @@ import in.silive.bytepad.Util;
  * Created by akriti on 6/8/16.
  */
 public class PapersListAdapter extends RecyclerView.Adapter<PapersListAdapter.PaperViewHolder> {
-    Activity context;
-    PrefManager prefManager;
+    private Activity context;
 
     public List<PaperDatabaseModel> getPapersList() {
         return papersList;
@@ -67,15 +66,14 @@ public class PapersListAdapter extends RecyclerView.Adapter<PapersListAdapter.Pa
     public PapersListAdapter(Activity context, List<PaperDatabaseModel> papersList) {
         this.papersList = papersList;
         this.context = context;
-        this.prefManager = new PrefManager(context);
 
     }
-    public class PaperViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvPaperTitle,tvPaperCategory,tvPaperSize,tvDownload;
+    class PaperViewHolder extends RecyclerView.ViewHolder {
+        TextView tvPaperTitle,tvPaperCategory,tvPaperSize,tvDownload;
         ImageView ivIcon;
         RelativeLayout rl;
 
-        public PaperViewHolder(View view) {
+        PaperViewHolder(View view) {
             super(view);
             tvPaperTitle = (TextView) view.findViewById(R.id.paper_title);
             tvPaperCategory = (TextView) view.findViewById(R.id.paper_category);
