@@ -6,6 +6,7 @@ import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.util.List;
+import java.util.Observable;
 
 import in.silive.bytepad.PaperDatabase;
 

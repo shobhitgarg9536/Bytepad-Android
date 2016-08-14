@@ -8,10 +8,10 @@
    >
     <!--Todo correct bytepad logo -->
 <ImageView
-    android:layout_width="160dp"
+    android:layout_width="@dimen/bytepad_logo_width"
     android:src="@drawable/bytepad_icon"
     android:id="@+id/ivLogo"
-    android:layout_height="160dp"
+    android:layout_height="@dimen/bytepad_logo_height"
     android:layout_centerInParent="true"/>
 <TextView
     android:layout_width="wrap_content"

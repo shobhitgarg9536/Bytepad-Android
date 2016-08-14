@@ -9,6 +9,8 @@ public class Config {
     public static final int DB_VERSION = 3;
     public static final String DB_NAME = "bytepad";
     public static final String BASE_URL = "http://bytepad.silive.in/rest/api/paper";
+    public static final String KEY_GCM_SENT_TO_SEVER = "sent_to_server";
+    public static final String KEY_DOWNLOADED_LIST = "downloadedList";
     public static String KEY_BYTEPAD = "bytepad" ;
     public static String KEY_DOWNLOAD_DIR = "bytepadDownload" ;
 }

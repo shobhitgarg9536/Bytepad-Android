@@ -1,20 +1,21 @@
 package in.silive.bytepad.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by akriti on 2/8/16.
  */
-public class PaperModel {
+public class PaperModel implements Parcelable{
     public String Title;
     public String ExamCategory;
     public String PaperCategory;
     public String Size;
     public String URL;
     public String RelativeURL;
-    public int mParentNumber;
-    public List<Object> mChildObjectList;
 
     public PaperModel(String title, String size) {
         this.Title = title;
@@ -22,10 +23,6 @@ public class PaperModel {
     }
 
     public PaperModel() {
-    }
-
-    @SuppressWarnings("serial")
-    public static class PapersList extends ArrayList<PaperModel> {
     }
 
     public String getExamCategory() {
@@ -36,21 +33,6 @@ public class PaperModel {
         ExamCategory = examCategory;
     }
 
-    public List<Object> getmChildObjectList() {
-        return mChildObjectList;
-    }
-
-    public void setmChildObjectList(List<Object> mChildObjectList) {
-        this.mChildObjectList = mChildObjectList;
-    }
-
-    public int getmParentNumber() {
-        return mParentNumber;
-    }
-
-    public void setmParentNumber(int mParentNumber) {
-        this.mParentNumber = mParentNumber;
-    }
 
     public String getPaperCategory() {
         return PaperCategory;
@@ -90,6 +72,45 @@ public class PaperModel {
 
     public void setURL(String URL) {
         this.URL = URL;
+    }
+
+    public PaperModel(Parcel in){
+      Title = in.readString();
+      ExamCategory = in.readString();
+      PaperCategory = in.readString();
+      Size = in.readString();
+      URL = in.readString();
+     RelativeURL = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(Title);
+        parcel.writeString(ExamCategory);
+        parcel.writeString(PaperCategory);
+        parcel.writeString(Size);
+        parcel.writeString(URL);
+        parcel.writeString(RelativeURL);
+    }
+    public static final Creator CREATOR = new Creator() {
+        @Override
+        public PaperModel createFromParcel(Parcel parcel) {
+            return new PaperModel(parcel);
+        }
+
+        @Override
+        public PaperModel[] newArray(int i) {
+            return new PaperModel[i];
+        }
+    };
+
+    @SuppressWarnings("serial")
+    public static class PapersList extends ArrayList<PaperModel> {
     }
 }
 
