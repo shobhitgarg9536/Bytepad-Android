@@ -1,4 +1,4 @@
-package in.silive.bytepad.reciever;
+package in.silive.bytepad.Receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
