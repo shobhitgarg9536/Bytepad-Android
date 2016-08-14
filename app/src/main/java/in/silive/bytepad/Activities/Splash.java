@@ -199,10 +199,10 @@ public class Splash extends AppCompatActivity implements RequestListener<PaperMo
 
             @Override
             protected void onPostExecute(Void aVoid) {
-                checkDownloadDir();
+
             }
         }.execute();
-
+        checkDownloadDir();
     }
 
 
