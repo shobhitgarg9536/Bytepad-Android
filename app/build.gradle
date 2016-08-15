@@ -16,35 +16,22 @@ repositories {
 
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'bytepad'
-            keyPassword 'glassgow16'
-            storeFile file('H:/AndroidStudioProjects/keystore')
-            storePassword 'Bornshine@990'
-        }
-    }
+
     compileSdkVersion 24
     buildToolsVersion "24.0.0"
     defaultConfig {
         applicationId "in.silive.bytepad"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
+        versionCode 4
+        versionName "4.0"
     }
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        releaseTest {
-            debuggable true
-            signingConfig signingConfigs.config
-            minifyEnabled true
-            zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+
     }
 }
 
@@ -66,8 +53,6 @@ dependencies {
         apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
         compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
         compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
-
-
     }
     compile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
         transitive = true;
