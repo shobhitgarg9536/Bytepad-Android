@@ -1,8 +1,6 @@
 package in.silive.bytepad.Activities;
 
-import android.app.DownloadManager;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -16,8 +14,6 @@ import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.iid.InstanceID;
 import com.mobapphome.mahandroidupdater.tools.MAHUpdaterController;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
@@ -27,12 +23,10 @@ import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import in.silive.bytepad.Application.BytepadApplication;
-import in.silive.bytepad.Config;
 import in.silive.bytepad.DownloadQueue;
 import in.silive.bytepad.DownloadQueue_Table;
 import in.silive.bytepad.Fragments.DialogFileDir;
@@ -110,7 +104,7 @@ mTracker = application.getDefaultTracker();
 
         }else {
             tvProgressInfo.setText("Downloading Papers list.");
-            spiceManager.execute(roboRetroSpiceRequest, "bytepad", DurationInMillis.ONE_MINUTE, this);
+            spiceManager.execute(roboRetroSpiceRequest, "in.silive.bo", DurationInMillis.ONE_MINUTE, this);
         }
     }
 

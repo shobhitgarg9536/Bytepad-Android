@@ -4,12 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by akriti on 2/8/16.
  */
-public class PaperModel implements Parcelable{
+ public class PaperModel implements Parcelable{
     public String Title;
     public String ExamCategory;
     public String PaperCategory;

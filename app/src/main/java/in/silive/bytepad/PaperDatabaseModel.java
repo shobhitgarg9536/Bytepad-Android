@@ -5,11 +5,6 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-import java.util.List;
-import java.util.Observable;
-
-import in.silive.bytepad.PaperDatabase;
-
 /**
  * Created by akriti on 5/8/16.
  */
@@ -34,6 +29,4 @@ public class PaperDatabaseModel extends BaseModel {
     public boolean downloaded;
     @Column
     public String dwnldPath;
-    public int mParentNumber;
-    public List<Object> mChildObjectList;
 }

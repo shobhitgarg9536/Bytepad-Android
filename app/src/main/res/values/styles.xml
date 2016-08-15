@@ -6,15 +6,25 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@drawable/initial_bg</item>
     </style>
     <style name="AppThemeNoActionBar" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:windowBackground">@drawable/initial_bg</item>
+
         <item name="windowActionBar">false</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="AppThemeNoActionBarWithBG" parent="AppThemeNoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@drawable/initial_bg</item>
+
+    </style>
+    <style name="DialogTheme">
+        <item name="android:windowBackground">@color/colorPrimary</item>
+    </style>
+
     <style name="NavigationTab" parent="Widget.Design.TabLayout">
        <!-- <item name="tabBackground">@color/background_tab</item>-->
         <item name="tabSelectedTextColor">#212121</item>

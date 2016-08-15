@@ -7,8 +7,6 @@ import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
-import java.io.IOException;
-
 import in.silive.bytepad.PrefManager;
 import in.silive.bytepad.R;
 

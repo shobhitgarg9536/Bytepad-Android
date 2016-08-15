@@ -2,12 +2,14 @@ package in.silive.bytepad.Application;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
 import in.silive.bytepad.R;
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by AKG002 on 06-08-2016.
@@ -18,6 +20,7 @@ public class BytepadApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         FlowManager.init(new FlowConfig.Builder(this).build());
     }
 

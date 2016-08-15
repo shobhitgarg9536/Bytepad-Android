@@ -1,16 +1,6 @@
 package in.silive.bytepad.Adapters;
 
 import android.app.Activity;
-import android.app.DownloadManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.database.Cursor;
-import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -19,34 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.raizlabs.android.dbflow.runtime.FlowContentObserver;
-import com.raizlabs.android.dbflow.sql.QueryBuilder;
-import com.raizlabs.android.dbflow.sql.language.Condition;
-import com.raizlabs.android.dbflow.sql.language.Delete;
-import com.raizlabs.android.dbflow.sql.language.NameAlias;
-import com.raizlabs.android.dbflow.sql.language.SQLCondition;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
-import com.raizlabs.android.dbflow.sql.language.Select;
-import com.raizlabs.android.dbflow.sql.queriable.StringQuery;
-import com.raizlabs.android.dbflow.structure.AsyncModel;
-import com.raizlabs.android.dbflow.structure.BaseModel;
-import com.raizlabs.android.dbflow.structure.Model;
-
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
-import in.silive.bytepad.Activities.MainActivity;
-import in.silive.bytepad.DownloadQueue;
-import in.silive.bytepad.DownloadQueue_Table;
-import in.silive.bytepad.Network.CheckConnectivity;
-import in.silive.bytepad.PaperDatabase;
 import in.silive.bytepad.PaperDatabaseModel;
-import in.silive.bytepad.PaperDatabaseModel_Table;
 import in.silive.bytepad.PrefManager;
 import in.silive.bytepad.R;
 import in.silive.bytepad.Util;
@@ -101,7 +67,7 @@ public class PapersListAdapter extends RecyclerView.Adapter<PapersListAdapter.Pa
 
     @Override
     public void onBindViewHolder(PaperViewHolder holder, int position) {
-        final PaperDatabaseModel paper = papersList.get(position);
+        final PaperDatabaseModel paper = this.getPapersList().get(position);
         holder.tvPaperTitle.setText(paper.Title);
         holder.tvPaperCategory.setText(paper.PaperCategory);
         holder.tvPaperTitle.setText(paper.Title);
@@ -115,18 +81,16 @@ public class PapersListAdapter extends RecyclerView.Adapter<PapersListAdapter.Pa
             paperImgId = R.drawable.pdf;
 
         holder.ivIcon.setImageResource(paperImgId);
-        if (paper.downloaded && !TextUtils.isEmpty(paper.dwnldPath)) {
+        if (paper.downloaded) {
             holder.tvDownload.setText("View");
             holder.rl.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //todo view paper
                     Util.openDocument(context,paper.dwnldPath);
                 }
             });
         } else {
-
-            //todo download paper
+            holder.tvDownload.setText("Download");
             holder.rl.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

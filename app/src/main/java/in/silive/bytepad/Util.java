@@ -58,17 +58,18 @@ public class Util {
             mTracker.send(new HitBuilders.EventBuilder()
                     .setCategory("View Paper")
                     .setAction("opening")
-                    .set("Viewer","not found")
+                    .setLabel("Viewer not found")
                     .build());
         } else {
             intent.setDataAndType(Uri.fromFile(file), mimetype);
+            context.startActivity(Intent.createChooser(intent, "Choose an Application:"));
             mTracker.send(new HitBuilders.EventBuilder()
                     .setCategory("View Paper")
                     .setAction("opening")
-                    .set("Viewer","found")
+                    .setLabel("Viewer found")
                     .build());
         }
-        context.startActivity(Intent.createChooser(intent, "Choose an Application:"));
+
     }
 
     public static void downloadPaper(final Activity context, final PaperDatabaseModel paper) {

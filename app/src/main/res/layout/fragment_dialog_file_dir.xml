@@ -15,6 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 android:id="@+id/ivBack"
+
             android:layout_weight="0"
             android:padding="3dp"
             android:src="@drawable/ic_back"
@@ -57,12 +58,16 @@ android:id="@+id/ivBack"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Cancel"
+            android:layout_margin="5dp"
+            android:background="@color/colorPrimary"
             android:id="@+id/btnCancel"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Select"
+            android:layout_margin="5dp"
+            android:background="@color/colorPrimary"
             android:id="@+id/btnSelect"/>
     </LinearLayout>
 

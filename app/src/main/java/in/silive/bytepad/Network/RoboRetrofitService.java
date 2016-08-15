@@ -11,8 +11,8 @@ public class RoboRetrofitService extends RetrofitGsonSpiceService {
 
     @Override
     public void onCreate() {
-        super.onCreate();
         addRetrofitInterface(BytePad.class);
+        super.onCreate();
     }
 
     @Override

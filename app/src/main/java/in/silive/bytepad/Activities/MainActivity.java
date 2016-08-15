@@ -1,7 +1,6 @@
 package in.silive.bytepad.Activities;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,7 +25,6 @@ import android.widget.TabHost;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.raizlabs.android.dbflow.runtime.FlowContentObserver;
-import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.SQLCondition;
 import com.raizlabs.android.dbflow.sql.language.Select;
 import com.raizlabs.android.dbflow.structure.BaseModel;
@@ -37,8 +35,6 @@ import java.util.List;
 
 import in.silive.bytepad.Adapters.PapersListAdapter;
 import in.silive.bytepad.Application.BytepadApplication;
-import in.silive.bytepad.Config;
-import in.silive.bytepad.Models.PaperModel;
 import in.silive.bytepad.Network.CheckConnectivity;
 import in.silive.bytepad.PaperDatabaseModel;
 import in.silive.bytepad.PaperDatabaseModel_Table;
@@ -215,8 +211,7 @@ public class MainActivity extends AppCompatActivity implements SnackBarListener,
                         adapter.notifyItemChanged(finalI);
                     }
                 });
-
-
+                break;
             }
         }
     }

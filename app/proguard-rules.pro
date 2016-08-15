@@ -15,3 +15,33 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# Gson specific classes
+-keep class sun.misc.Unsafe { *; }
+-keepattributes *Annotation*
+ -keep class retrofit.** { *; }
+ -keepclasseswithmembers class * {
+ @retrofit.http.* <methods>; }
+ -keepattributes Signature
+-keep class * extends com.raizlabs.android.dbflow.config.DatabaseHolder { *; }
+-keep class in.silive.bytepad.Models.PaperModel {*;}
+-keep class in.silive.bytepad.Network.BytePad {*;}
+ -keep class com.octo.android.robospice.retrofit.** { *; }
+-dontwarn com.octo.android.robospice.retrofit.*
+-dontwarn android.support.**
+-dontwarn com.sun.xml.internal.**
+-dontwarn com.sun.istack.internal.**
+-dontwarn org.codehaus.jackson.**
+-dontwarn org.springframework.**
+-dontwarn java.awt.**
+-dontwarn javax.security.**
+-dontwarn java.beans.**
+-dontwarn javax.xml.**
+-dontwarn java.util.**
+-dontwarn org.w3c.dom.**
+-dontwarn com.google.common.**
+-dontwarn com.octo.android.robospice.persistence.**
+-dontwarn rx.**
+-dontwarn com.google.appengine.api.urlfetch.*
+-dontwarn com.squareup.okhttp.*
+

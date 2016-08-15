@@ -2,7 +2,6 @@ package in.silive.bytepad.Fragments;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +22,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -72,6 +69,7 @@ public class DialogFileDir extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         getDialog().setTitle("Select folder");
+        this.getDialog().getWindow().setBackgroundDrawableResource(R.color.colorPrimary);
         setCancelable(false);
         view = inflater.inflate(R.layout.fragment_dialog_file_dir, container, false);
         sharedPreferences = getActivity().getSharedPreferences(Config.KEY_BYTEPAD, Activity.MODE_PRIVATE);
@@ -167,7 +165,7 @@ public class DialogFileDir extends DialogFragment {
                 String prevAddress = sharedPreferences.getString(Config.KEY_DOWNLOAD_DIR, "");
                 if (TextUtils.isEmpty(currentDir)) {
                     File file = new File(Environment.getExternalStorageDirectory()
-                            + File.separator + "bytepad");
+                            + File.separator + "in.silive.bo");
                     file.mkdirs();
                     prefManager.setDownloadPath(file.getAbsolutePath());
                         if (listener!=null)

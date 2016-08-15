@@ -6,7 +6,6 @@
     android:background="@color/colorBg"
     android:id="@+id/splash"
    >
-    <!--Todo correct bytepad logo -->
 <ImageView
     android:layout_width="@dimen/bytepad_logo_width"
     android:src="@drawable/bytepad_icon"
