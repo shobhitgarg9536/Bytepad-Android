@@ -7,8 +7,7 @@ import in.silive.bytepad.Models.PaperModel;
 /**
  * Created by akriti on 2/8/16.
  */
-public class RoboRetroSpiceRequest extends RetrofitSpiceRequest<PaperModel.PapersList,BytePad> {
-
+public class RoboRetroSpiceRequest extends RetrofitSpiceRequest<PaperModel.PapersList, BytePad> {
 
 
     public RoboRetroSpiceRequest() {
@@ -16,11 +15,11 @@ public class RoboRetroSpiceRequest extends RetrofitSpiceRequest<PaperModel.Paper
 
     }
 
-    
+
     @Override
     public PaperModel.PapersList loadDataFromNetwork() throws Exception {
 
-            return getService().papersList();
+        return getService().papersList();
     }
 }
 

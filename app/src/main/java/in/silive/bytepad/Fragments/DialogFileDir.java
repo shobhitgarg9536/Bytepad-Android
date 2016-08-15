@@ -35,9 +35,6 @@ import in.silive.bytepad.R;
  * A simple {@link Fragment} subclass.
  */
 public class DialogFileDir extends DialogFragment {
-    public static boolean flag_ext_storage_avail;
-    public static boolean flag_ext_storage_readabl;
-    //UI Elements
     Button btnSelect, btnCancel;
     EditText etAddress;
     SharedPreferences sharedPreferences;
@@ -168,8 +165,8 @@ public class DialogFileDir extends DialogFragment {
                             + File.separator + "in.silive.bo");
                     file.mkdirs();
                     prefManager.setDownloadPath(file.getAbsolutePath());
-                        if (listener!=null)
-                            listener.onDirSelected(file.getAbsolutePath());
+                    if (listener != null)
+                        listener.onDirSelected(file.getAbsolutePath());
                 }
 
                 dismiss();
@@ -205,8 +202,8 @@ public class DialogFileDir extends DialogFragment {
     }
 
 
-    public static interface Listener {
-        public void onDirSelected(String addr);
+    public interface Listener {
+        void onDirSelected(String addr);
     }
 
 

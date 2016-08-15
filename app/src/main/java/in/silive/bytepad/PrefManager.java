@@ -7,12 +7,12 @@ import android.content.SharedPreferences;
  * Created by akriti on 5/8/16.
  */
 public class PrefManager {
-    public static SharedPreferences pref;
-    static SharedPreferences.Editor editor;
+    private static SharedPreferences pref;
+    private static SharedPreferences.Editor editor;
     public static Context context;
 
     public PrefManager(Context c) {
-        this.context = c;
+        context = c;
         pref = context.getSharedPreferences(Config.KEY_SHAREDPREF_NAME, Context.MODE_PRIVATE);
         editor = pref.edit();
     }
@@ -33,11 +33,9 @@ public class PrefManager {
         editor.putString(Config.KEY_DOWNLOAD_DIR,downloadPath);
         editor.apply();
     }
-
     public boolean isGCMTokenSentToServer() {
         return pref.getBoolean(Config.KEY_GCM_SENT_TO_SEVER,false);
     }
-
     public void GCMTokenSent() {
         editor.putBoolean(Config.KEY_GCM_SENT_TO_SEVER,true);
         editor.apply();
