@@ -20,14 +20,15 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
     defaultConfig {
-        applicationId "in.silive.bytepad"
+        applicationId "in.silive.bo"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 4
-        versionName "4.0"
+        versionCode 7
+        versionName "4.1"
     }
     buildTypes {
         release {
+            debuggable false
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
