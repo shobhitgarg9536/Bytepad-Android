@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <permission android:name="in.silive.bytepad.pernission.C2D_Message" />
+
     <uses-permission android:name="in.silive.bytepad.pernission.C2D_Message" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -12,8 +13,9 @@
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission-sdk-23 android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission-sdk-23 android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+    <uses-permission-sdk-23 android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission-sdk-23 android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:name="in.silive.bytepad.Application.BytepadApplication"
@@ -21,32 +23,52 @@
         android:icon="@drawable/bytepad_icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name="in.silive.bytepad.Activities.Splash"
+        <activity
+            android:name="in.silive.bytepad.Activities.Splash"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBarWithBG">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
-        <activity android:name="in.silive.bytepad.Activities.MainActivity"
-            android:theme="@style/AppThemeNoActionBar"
+        <activity
+            android:name="in.silive.bytepad.Activities.MainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:theme="@style/AppThemeNoActionBar"
+            android:windowSoftInputMode="stateHidden">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data
+                    android:host="www.silive.in"
+                    android:pathPrefix="/"
+                    android:scheme="http" />
+
+            </intent-filter>
+        </activity>
+
         <service android:name="in.silive.bytepad.Network.RoboRetrofitService" />
 
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <category android:name="in.silive.bytepad" />
             </intent-filter>
         </receiver>
+
         <service
             android:name="in.silive.bytepad.Services.GcmListener"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>

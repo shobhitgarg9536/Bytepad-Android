@@ -7,7 +7,6 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,7 +19,6 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TabHost;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -45,11 +43,10 @@ import in.silive.bytepad.SnackBarListener;
 public class MainActivity extends AppCompatActivity implements SnackBarListener, FlowContentObserver.OnModelStateChangedListener {
     public static List<PaperDatabaseModel> paperList = new ArrayList<>();
     public AutoCompleteTextView search_paper;
-    public Context c;
-    public RecyclerView rview;
-    public TabLayout tabview;
+    public RecyclerView recyclerView;
+    public TabLayout tabLayout;
     public CoordinatorLayout coordinatorLayout;
-    PapersListAdapter adapter;
+    PapersListAdapter papersListAdapter;
     String query = "%";
     String paperType = "%";
     Toolbar toolbar;
@@ -76,20 +73,20 @@ public class MainActivity extends AppCompatActivity implements SnackBarListener,
         Log.d("Bytepad", "MainActivity created");
         search_paper = (AutoCompleteTextView) findViewById(R.id.search_paper);
         Log.d("Bytepad", "Search bar added");
-        tabview = (TabLayout) findViewById(R.id.tabview);
+        tabLayout = (TabLayout) findViewById(R.id.tabview);
         Log.d("Bytepad", "Tab Layout added");
-        rview = (RecyclerView) findViewById(R.id.rview);
+        recyclerView = (RecyclerView) findViewById(R.id.rview);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        rview.setLayoutManager(mLayoutManager);
+        recyclerView.setLayoutManager(mLayoutManager);
         query = "";
         ivClearSearch = (ImageView) findViewById(R.id.ivClearSearch);
         recyclerEmptyView = (RelativeLayout) findViewById(R.id.recyclerEmptyView);
-        tabview.addTab(tabview.newTab().setText("ALL"), 0);
-        tabview.addTab(tabview.newTab().setText("ST"), 1);
-        tabview.addTab(tabview.newTab().setText("PUT"), 2);
-        tabview.addTab(tabview.newTab().setText("UT"), 3);
-        tabview.addTab(tabview.newTab().setText("SAVED"), 4);
-        tabview.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.addTab(tabLayout.newTab().setText("ALL"), 0);
+        tabLayout.addTab(tabLayout.newTab().setText("ST"), 1);
+        tabLayout.addTab(tabLayout.newTab().setText("PUT"), 2);
+        tabLayout.addTab(tabLayout.newTab().setText("UT"), 3);
+        tabLayout.addTab(tabLayout.newTab().setText("SAVED"), 4);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int i = tab.getPosition();
@@ -125,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements SnackBarListener,
             }
         });
         if (!CheckConnectivity.isNetConnected(this)) {
-            TabLayout.Tab tab = tabview.getTabAt(4);
+            TabLayout.Tab tab = tabLayout.getTabAt(4);
             tab.select();
         }
         search_paper.addTextChangedListener(new TextWatcher() {
@@ -171,8 +168,8 @@ public class MainActivity extends AppCompatActivity implements SnackBarListener,
         paperList = new Select().from(PaperDatabaseModel.class)
                 .where(PaperDatabaseModel_Table.Title.like("%" + query + "%"), secondCondition)
                 .queryList();
-        adapter = new PapersListAdapter(this, paperList);
-        rview.setAdapter(adapter);
+        papersListAdapter = new PapersListAdapter(this, paperList);
+        recyclerView.setAdapter(papersListAdapter);
         if (paperList.size() != 0) {
             recyclerEmptyView.setVisibility(View.GONE);
         } else {
@@ -197,13 +194,13 @@ public class MainActivity extends AppCompatActivity implements SnackBarListener,
         }
     }
     private void updateModelView(int id) {
-        for (int i = 0; i < adapter.getItemCount(); i++) {
-            if (id == adapter.getPapersList().get(i).id) {
+        for (int i = 0; i < papersListAdapter.getItemCount(); i++) {
+            if (id == papersListAdapter.getPapersList().get(i).id) {
                 final int finalI = i;
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        adapter.notifyItemChanged(finalI);
+                        papersListAdapter.notifyItemChanged(finalI);
                     }
                 });
                 break;

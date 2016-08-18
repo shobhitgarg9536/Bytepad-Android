@@ -99,7 +99,7 @@ public class Util {
             final Uri uri1 = Uri.parse("file://" + prefManager.getDownloadPath() + "/" + paper.Title);
             request.setDestinationUri(uri1);
             request.setVisibleInDownloadsUi(true);
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE | DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
             downloadReference = downloadManager.enqueue(request);
 

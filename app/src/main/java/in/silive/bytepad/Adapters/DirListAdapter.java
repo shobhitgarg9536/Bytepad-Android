@@ -17,12 +17,10 @@ import in.silive.bytepad.R;
 public class DirListAdapter extends BaseAdapter {
 
 
-    ArrayList<String> dirList;
-    Context context;
-    LayoutInflater layoutInflater;
+    private ArrayList<String> dirList;
+    private LayoutInflater layoutInflater;
 
     public DirListAdapter(Context context, ArrayList<String> dirList) {
-        this.context = context;
         this.dirList = dirList;
         this.layoutInflater = LayoutInflater.from(context);
     }
@@ -44,9 +42,9 @@ public class DirListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        if (view==null)
-            view = layoutInflater.inflate(R.layout.item_directory,null);
-        TextView tv = (TextView)view.findViewById(R.id.tvDirName);
+        if (view == null)
+            view = layoutInflater.inflate(R.layout.item_directory, null);
+        TextView tv = (TextView) view.findViewById(R.id.tvDirName);
         tv.setText(dirList.get(i));
         return view;
     }

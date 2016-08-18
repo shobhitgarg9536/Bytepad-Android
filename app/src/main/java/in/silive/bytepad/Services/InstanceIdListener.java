@@ -7,8 +7,6 @@ import com.google.android.gms.iid.InstanceIDListenerService;
 
 public class InstanceIdListener extends InstanceIDListenerService {
 
-    private static final String TAG = "InstanceIDLS";
-
 
     @Override
     public void onTokenRefresh() {
