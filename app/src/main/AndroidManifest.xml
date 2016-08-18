@@ -24,7 +24,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="in.silive.bytepad.Activities.Splash"
+            android:name="in.silive.bytepad.Activities.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBarWithBG">
             <intent-filter>

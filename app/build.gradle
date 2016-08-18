@@ -48,6 +48,7 @@ dependencies {
     apply plugin: 'com.neenbedankt.android-apt'
     compile 'com.google.android.gms:play-services-gcm:9.4.0'
     compile 'com.google.android.gms:play-services-analytics:9.4.0'
+    compile 'com.daasuu:animateHorizontalProgressBar:0.2.4'
     def dbflow_version = "3.1.1"
     dependencies {
         apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"

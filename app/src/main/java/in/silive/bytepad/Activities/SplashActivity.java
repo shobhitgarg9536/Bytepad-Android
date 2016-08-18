@@ -10,11 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daasuu.ahp.AnimateHorizontalProgressBar;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.mobapphome.mahandroidupdater.tools.MAHUpdaterController;
@@ -45,18 +45,18 @@ import in.silive.bytepad.R;
 import in.silive.bytepad.Services.RegisterGCM;
 import in.silive.bytepad.Util;
 
-public class Splash extends AppCompatActivity implements RequestListener<PaperModel.PapersList> {
+public class SplashActivity extends AppCompatActivity implements RequestListener<PaperModel.PapersList> {
     public static PaperModel pm;
     RelativeLayout splash;
     SpiceManager spiceManager;
     RoboRetroSpiceRequest roboRetroSpiceRequest;
     PrefManager prefManager;
     Bundle paperModelBundle;
-    ProgressBar progressBar;
     TextView tvProgressInfo;
     Tracker mTracker;
     Bundle bundle;
     ArrayList<PaperModel> list;
+    AnimateHorizontalProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,21 +66,22 @@ public class Splash extends AppCompatActivity implements RequestListener<PaperMo
         prefManager = new PrefManager(this);
         BytepadApplication application = (BytepadApplication) getApplication();
         mTracker = application.getDefaultTracker();
-        mTracker.setScreenName("Splash");
+        mTracker.setScreenName("SplashActivity");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         if (!prefManager.isGCMTokenSentToServer()) {
             Intent i = new Intent(this, RegisterGCM.class);
             startService(i);
         }
-        checkPermissions();
         splash = (RelativeLayout) findViewById(R.id.splash);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar = (AnimateHorizontalProgressBar) findViewById(R.id.animate_progress_bar);
         tvProgressInfo = (TextView) findViewById(R.id.tvProgressInfo);
-        Log.d("Bytepad", "Splash created");
+        Log.d("Bytepad", "SplashActivity created");
         spiceManager = new SpiceManager(RoboRetrofitService.class);
         Log.d("Bytepad", "Spice manager initialized");
         roboRetroSpiceRequest = new RoboRetroSpiceRequest();
         Log.d("Bytepad", "Spice request initialized");
+        checkPermissions();
+
     }
 
     private void checkPermissions() {
@@ -90,7 +91,8 @@ public class Splash extends AppCompatActivity implements RequestListener<PaperMo
         }
         if (!marshMallowPermission.checkPermissionForRead()) {
             marshMallowPermission.requestPermissionForRead();
-        }
+        } else
+            checkPapersList();
     }
 
     @Override
@@ -156,7 +158,7 @@ public class Splash extends AppCompatActivity implements RequestListener<PaperMo
 
 
     private void moveToNextActivity() {
-        Intent intent = new Intent(Splash.this, MainActivity.class);
+        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
 
@@ -193,6 +195,9 @@ public class Splash extends AppCompatActivity implements RequestListener<PaperMo
     public void onRequestSuccess(final PaperModel.PapersList result) {
         Log.d("Bytepad", "Request success");
         updatePapers(result);
+        progressBar.setMax(result.size());
+        progressBar.setProgress(0);
+
         mTracker.send(new HitBuilders.EventBuilder()
                 .setCategory("Download")
                 .setAction("Paper list download")
@@ -204,8 +209,14 @@ public class Splash extends AppCompatActivity implements RequestListener<PaperMo
     public void updatePapers(final PaperModel.PapersList result) {
         Log.d("Bytepad", "Updating papers in DB");
         tvProgressInfo.setText("Saving Papers list.");
-        new AsyncTask<Void, Void, Void>() {
+        new AsyncTask<Void, Integer, Void>() {
             PrefManager pref = prefManager;
+
+            @Override
+            protected void onProgressUpdate(Integer... values) {
+                super.onProgressUpdate(values);
+                progressBar.setProgress(values[0]);
+            }
 
             @Override
             protected Void doInBackground(Void... voids) {
@@ -221,6 +232,7 @@ public class Splash extends AppCompatActivity implements RequestListener<PaperMo
                     paperDatabaseModel.Size = paper.Size;
                     paperDatabaseModel.downloaded = false;
                     paperDatabaseModel.save();
+                    publishProgress(i + 1);
                 }
                 pref.setPapersLoaded(true);
                 return null;
