@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/guideline14"
-                app:layout_constraintGuide_percent="0.3"
+                app:layout_constraintGuide_percent="0.25"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteY="307dp"
                 tools:layout_editor_absoluteX="0dp" />
@@ -169,7 +169,7 @@
             <android.support.design.widget.TabLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:background="@color/colorPrimary"
+                android:background="#bdc3c7"
                 app:tabTextColor="#fdfdfd"
                 app:tabSelectedTextColor="#212121"
                 app:tabIndicatorColor="#FFFC2525"
